@@ -3,6 +3,16 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://tchilderhose.github.io/resume/</loc>
+    <lastmod>2021-04-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tchilderhose.github.io/</loc>
+    <lastmod>2021-04-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://tchilderhose.github.io/categories/</loc>
     <lastmod>2019-03-11T00:00:00+00:00</lastmod>
   </url>
@@ -129,11 +139,6 @@
   
   <url>
     <loc>https://tchilderhose.github.io/about/</loc>
-    <lastmod>2019-02-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tchilderhose.github.io/</loc>
     <lastmod>2019-02-28T00:00:00+00:00</lastmod>
   </url>
   
