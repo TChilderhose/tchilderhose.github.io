@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",function(){let a=document.querySelector('.preload-transitions');a.classList.remove('preload-transitions')})
