@@ -210,7 +210,24 @@ Issues
 <p>I started going throught the logcat to see if there was anything and noticed there was an error message that K-9 was handling, <code>unsupported search query</code>.</p>
 <p>I wasn&rsquo;t sure if this was from K-9 or from ProtonMail. Luckily both are open source so I could search and I found that it was from ProntMail</p>
 <p><a href=https://github.com/ProtonMail/proton-bridge/blob/6ff4c8a73853a3794656e530c6f073e02a22568f/internal/imap/mailbox_messages.go#L316>ProtonMail/proton-bridge/internal/imap/mailbox_messages.go#L316</a></p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=c1>// SearchMessages searches messages. The returned list must contain UIDs if
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>309
+</span><span class=lnt>310
+</span><span class=lnt>311
+</span><span class=lnt>312
+</span><span class=lnt>313
+</span><span class=lnt>314
+</span><span class=lnt>315
+</span><span class=hl><span class=lnt>316
+</span></span><span class=lnt>317
+</span><span class=lnt>318
+</span><span class=lnt>319
+</span><span class=lnt>320
+</span><span class=lnt>321
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=c1>// SearchMessages searches messages. The returned list must contain UIDs if
 </span><span class=c1>// uid is set to true, or sequence numbers otherwise.
 </span><span class=c1></span><span class=kd>func</span> <span class=p>(</span><span class=nx>im</span> <span class=o>*</span><span class=nx>imapMailbox</span><span class=p>)</span> <span class=nf>SearchMessages</span><span class=p>(</span><span class=nx>isUID</span> <span class=kt>bool</span><span class=p>,</span> <span class=nx>criteria</span> <span class=o>*</span><span class=nx>imap</span><span class=p>.</span><span class=nx>SearchCriteria</span><span class=p>)</span> <span class=p>(</span><span class=nx>ids</span> <span class=p>[]</span><span class=kt>uint32</span><span class=p>,</span> <span class=nx>err</span> <span class=kt>error</span><span class=p>)</span> <span class=p>{</span> <span class=c1>//nolint[gocyclo]
 </span><span class=c1></span>	<span class=c1>// Called from go-imap in goroutines - we need to handle panics for each function.
@@ -223,7 +240,9 @@ Issues
 	<span class=k>if</span> <span class=nx>criteria</span><span class=p>.</span><span class=nx>Body</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=o>||</span> <span class=nx>criteria</span><span class=p>.</span><span class=nx>Text</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
 		<span class=nx>log</span><span class=p>.</span><span class=nf>Warn</span><span class=p>(</span><span class=s>&#34;Body and Text criteria not applied&#34;</span><span class=p>)</span>
 	<span class=p>}</span>
-</code></pre></div><p>Either K-9 is passing <code>criteria.Not</code> or <code>criteria.Or</code>. It turns out it&rsquo;s <code>criteria.Not</code>.</p>
+</code></pre></td></tr></table>
+</div>
+</div><p>Either K-9 is passing <code>criteria.Not</code> or <code>criteria.Or</code>. It turns out it&rsquo;s <code>criteria.Not</code>.</p>
 <p>Now I can either edit the K-9 source or ProtonMail Bridge source and try again. I decided to ProtonMail Bridge source route.</p>
 </section>
 <section>
