@@ -83,7 +83,7 @@ TChilderhose
 <li><a href=#attempt-3---compile-protonmail-bridge-myself>Attempt 3 - Compile ProtonMail Bridge Myself</a>
 <ul>
 <li><a href=#my-repo>My Repo</a></li>
-<li><a href=#setup>Setup</a></li>
+<li><a href=#solution>Solution</a></li>
 </ul>
 </li>
 <li><a href=#summary>Summary</a></li>
@@ -106,7 +106,7 @@ Connecting to ProtonMail Bridge with K-9 Mail on Android
 </span>
 &nbsp;
 <span class=reading-time>
-<i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M256 8C119 8 8 119 8 256S119 504 256 504 504 393 504 256 393 8 256 8zm92.49 313h0l-20 25A16 16 0 01306 348.5h0l-67-49.72a40 40 0 01-15-31.23V112a16 16 0 0116-16h32a16 16 0 0116 16V256l58 42.5A16 16 0 01348.49 321z"/></svg></i>5-minute read</span>
+<i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M256 8C119 8 8 119 8 256S119 504 256 504 504 393 504 256 393 8 256 8zm92.49 313h0l-20 25A16 16 0 01306 348.5h0l-67-49.72a40 40 0 01-15-31.23V112a16 16 0 0116-16h32a16 16 0 0116 16V256l58 42.5A16 16 0 01348.49 321z"/></svg></i>6-minute read</span>
 &nbsp;
 <span class=tags>
 <i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M0 252.118V48C0 21.49 21.49.0 48 0h204.118a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137.0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882.0L14.059 286.059A48 48 0 010 252.118zM112 64c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg></i>
@@ -122,7 +122,7 @@ Connecting to ProtonMail Bridge with K-9 Mail on Android
 <div>
 <p>Recently I decided to look into moving away from GMail and start using a different mail service and landed on ProtonMail. My one gripe is their Android App is not great and has some nagging issues. So I wanted to see if I can use a much more well-known mail client for Android, <a href=https://github.com/k9mail/k-9>K-9 Mail</a>.</p>
 <p>The main issue with this is that ProtonMail doesn&rsquo;t have native IMAP support. But, they do have a <a href=https://protonmail.com/bridge/>ProtonMail Bridge</a> which simulates IMAP. They say ThunderBird is offically supported, which is a fairly robust Email client, so I was optimistic that I could get K-9 to work.</p>
-<p>Note: If you only want to know how to get it working, you can skip to my <a href=#setup>solution</a>.</p>
+<p>TL;DR Note: If you want to skip over my trys and only want to know how to get it working, you can skip to my <a href=#solution>solution</a>.</p>
 <section>
 <h2 id=my-setup>
 My Setup
@@ -130,7 +130,7 @@ My Setup
 <i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i>
 </a>
 </h2>
-<p>I run a linux based server that is on my home network. It is headless (no monitor) and runs a handful of docker microservices. Most of them do not matter for this write-up, but one that does play a a fairly large role is my <a href=https://docs.linuxserver.io/images/docker-wireguard>wireguard VPN</a> container, which my phone is 100% always connected to. This allows my to connect directly to my server from my phone using it&rsquo;s internal IP address and not needing to expose it to the internet.</p>
+<p>I run a linux based server that is on my home network. It is headless (no monitor) and runs a handful of docker microservices. Most of them do not matter for this write-up, but one that does play a a fairly large role is my <a href=https://docs.linuxserver.io/images/docker-wireguard>Wireguard VPN</a> container, which my phone is 100% always connected to. This allows my to connect directly to my server from my phone using it&rsquo;s internal IP address and not needing to expose it to the internet.</p>
 <p>My phone is Android 11 and has a kernal with wireguard built-in. This allows me to be connected to Wireguard all the time doesn&rsquo;t effect battery that much. K-9 mail was installed through <a href=https://f-droid.org/packages/com.fsck.k9/>f-droid</a>.</p>
 <p>I have ProntonMail Plus, which is needed in order to use the ProtonMail Bridge.</p>
 </section>
@@ -210,24 +210,7 @@ Issues
 <p>I started going throught the logcat to see if there was anything and noticed there was an error message that K-9 was handling, <code>unsupported search query</code>.</p>
 <p>I wasn&rsquo;t sure if this was from K-9 or from ProtonMail. Luckily both are open source so I could search and I found that it was from ProntMail</p>
 <p><a href=https://github.com/ProtonMail/proton-bridge/blob/6ff4c8a73853a3794656e530c6f073e02a22568f/internal/imap/mailbox_messages.go#L316>ProtonMail/proton-bridge/internal/imap/mailbox_messages.go#L316</a></p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>309
-</span><span class=lnt>310
-</span><span class=lnt>311
-</span><span class=lnt>312
-</span><span class=lnt>313
-</span><span class=lnt>314
-</span><span class=lnt>315
-</span><span class=hl><span class=lnt>316
-</span></span><span class=lnt>317
-</span><span class=lnt>318
-</span><span class=lnt>319
-</span><span class=lnt>320
-</span><span class=lnt>321
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=c1>// SearchMessages searches messages. The returned list must contain UIDs if
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=c1>// SearchMessages searches messages. The returned list must contain UIDs if
 </span><span class=c1>// uid is set to true, or sequence numbers otherwise.
 </span><span class=c1></span><span class=kd>func</span> <span class=p>(</span><span class=nx>im</span> <span class=o>*</span><span class=nx>imapMailbox</span><span class=p>)</span> <span class=nf>SearchMessages</span><span class=p>(</span><span class=nx>isUID</span> <span class=kt>bool</span><span class=p>,</span> <span class=nx>criteria</span> <span class=o>*</span><span class=nx>imap</span><span class=p>.</span><span class=nx>SearchCriteria</span><span class=p>)</span> <span class=p>(</span><span class=nx>ids</span> <span class=p>[]</span><span class=kt>uint32</span><span class=p>,</span> <span class=nx>err</span> <span class=kt>error</span><span class=p>)</span> <span class=p>{</span> <span class=c1>//nolint[gocyclo]
 </span><span class=c1></span>	<span class=c1>// Called from go-imap in goroutines - we need to handle panics for each function.
@@ -240,9 +223,7 @@ Issues
 	<span class=k>if</span> <span class=nx>criteria</span><span class=p>.</span><span class=nx>Body</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=o>||</span> <span class=nx>criteria</span><span class=p>.</span><span class=nx>Text</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
 		<span class=nx>log</span><span class=p>.</span><span class=nf>Warn</span><span class=p>(</span><span class=s>&#34;Body and Text criteria not applied&#34;</span><span class=p>)</span>
 	<span class=p>}</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>Either K-9 is passing <code>criteria.Not</code> or <code>criteria.Or</code>. It turns out it&rsquo;s <code>criteria.Not</code>.</p>
+</code></pre></div><p>Either K-9 is passing <code>criteria.Not</code> or <code>criteria.Or</code>. It turns out it&rsquo;s <code>criteria.Not</code>.</p>
 <p>Now I can either edit the K-9 source or ProtonMail Bridge source and try again. I decided to ProtonMail Bridge source route.</p>
 </section>
 <section>
@@ -269,9 +250,9 @@ My Repo
 <li>Build the docker image</li>
 </ol>
 <p>Then when the docker image is spun up, it creates some <code>socat</code> proxies and starts the protonmail-bridge.</p>
-<h3 id=setup>
-Setup
-<a class=heading-link href=#setup>
+<h3 id=solution>
+Solution
+<a class=heading-link href=#solution>
 <i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i>
 </a>
 </h3>
@@ -302,6 +283,8 @@ Summary
 <i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i>
 </a>
 </h2>
+<p>Getting this working took a few attempts, but it wasn&rsquo;t overall too bad. While it&rsquo;s only been a few days that it&rsquo;s been setup, I&rsquo;ve had no issues and have been really happy with it. There is a lot of good settings to play around with in K-9 to get it setup just right. The one thing that is missing is sending via an alias, which is something I havn&rsquo;t needed to do yet, so I will cross that</p>
+<p>ProtonMail keep saying a new mobile app will be rolling out by years end, so if/when that drops, I will need to reevaluate if I will switch to that or keep this setup. But currently I am really liking it so will probably be sticking with it for awhile.</p>
 </section>
 </div>
 <footer>
