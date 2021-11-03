@@ -6,13 +6,13 @@
 <meta name=color-scheme content="light dark">
 <meta http-equiv=content-security-policy content="upgrade-insecure-requests; block-all-mixed-content; default-src 'self'; child-src 'self'; font-src 'self'; form-action 'self'; frame-src 'self' https://utteranc.es; img-src 'self'; object-src 'none'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://utteranc.es; prefetch-src 'self'; connect-src 'self';">
 <meta name=author content="Tyler Childerhose">
-<meta name=description content="Recently I decided to look into moving away from GMail and start using a different mail service and landed on ProtonMail. My one gripe is with their Android App is not great. So I wanted to see if I can use a more well-known mail client for Android, K-9 Mail.">
+<meta name=description content="Recently I decided to look into moving away from GMail and start using a different mail service and landed on ProtonMail. My one gripe is their Android App is not great and has some nagging issues. So I wanted to see if I can use a much more well-known mail client for Android, K-9 Mail.">
 <meta name=keywords content="blog,developer,personal">
 <meta name=twitter:card content="summary">
 <meta name=twitter:title content="Connecting to ProtonMail Bridge with K-9 Mail on Android">
-<meta name=twitter:description content="Recently I decided to look into moving away from GMail and start using a different mail service and landed on ProtonMail. My one gripe is with their Android App is not great. So I wanted to see if I can use a more well-known mail client for Android, K-9 Mail.">
+<meta name=twitter:description content="Recently I decided to look into moving away from GMail and start using a different mail service and landed on ProtonMail. My one gripe is their Android App is not great and has some nagging issues. So I wanted to see if I can use a much more well-known mail client for Android, K-9 Mail.">
 <meta property="og:title" content="Connecting to ProtonMail Bridge with K-9 Mail on Android">
-<meta property="og:description" content="Recently I decided to look into moving away from GMail and start using a different mail service and landed on ProtonMail. My one gripe is with their Android App is not great. So I wanted to see if I can use a more well-known mail client for Android, K-9 Mail.">
+<meta property="og:description" content="Recently I decided to look into moving away from GMail and start using a different mail service and landed on ProtonMail. My one gripe is their Android App is not great and has some nagging issues. So I wanted to see if I can use a much more well-known mail client for Android, K-9 Mail.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://tchilderhose.ca/posts/2021/11/protonmail-k9/"><meta property="article:section" content="posts">
 <meta property="article:published_time" content="2021-11-03T00:00:00+00:00">
@@ -120,8 +120,9 @@ Connecting to ProtonMail Bridge with K-9 Mail on Android
 </div>
 </header>
 <div>
-<p>Recently I decided to look into moving away from GMail and start using a different mail service and landed on ProtonMail. My one gripe is with their Android App is not great. So I wanted to see if I can use a more well-known mail client for Android, <a href=https://github.com/k9mail/k-9>K-9 Mail</a>.</p>
-<p>The main issue is that ProtonMail doesn&rsquo;t have native IMAP support, but they do have a <a href=https://protonmail.com/bridge/>ProtonMail Bridge</a> which simulates IMAP. They say ThunderBird is offically supported, which is a fairly robust Email client, so I was optimistic that I could get K-9 to work.</p>
+<p>Recently I decided to look into moving away from GMail and start using a different mail service and landed on ProtonMail. My one gripe is their Android App is not great and has some nagging issues. So I wanted to see if I can use a much more well-known mail client for Android, <a href=https://github.com/k9mail/k-9>K-9 Mail</a>.</p>
+<p>The main issue with this is that ProtonMail doesn&rsquo;t have native IMAP support. But, they do have a <a href=https://protonmail.com/bridge/>ProtonMail Bridge</a> which simulates IMAP. They say ThunderBird is offically supported, which is a fairly robust Email client, so I was optimistic that I could get K-9 to work.</p>
+<p>Note: If you only want to know how to get it working, you can skip to my <a href=#setup>solution</a>.</p>
 <section>
 <h2 id=my-setup>
 My Setup
