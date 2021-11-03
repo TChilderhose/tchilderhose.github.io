@@ -21,7 +21,7 @@
 Connecting to ProtonMail Bridge with K-9 Mail on Android · TChilderhose
 </title>
 <link rel=canonical href=https://tchilderhose.ca/posts/2021/11/protonmail-k9/>
-<link rel=stylesheet href=/css/site.min.42fb97292ee0db82f8ec518df44e3da1a74d467b97d7e01dda24b663462dd6d1.css integrity="sha256-QvuXKS7g24L47FGN9E49oadNRnuX1+Ad2iS2Y0Yt1tE=" crossorigin=anonymous>
+<link rel=stylesheet href=/css/site.min.9adf3898c5a4b575235d67b06d6fd1491dc82e04bc01e5ab044976a26dc6b31d.css integrity="sha256-mt84mMWktXUjXWewbW/RSR3ILgS8AeWrBEl2om3Gsx0=" crossorigin=anonymous>
 <link rel=icon type=image/png href=/images/favicon-32x32.png sizes=32x32>
 <link rel=icon type=image/png href=/images/favicon-16x16.png sizes=16x16>
 <link rel=apple-touch-icon href=/images/apple-touch-icon.png>
@@ -130,7 +130,7 @@ My Setup
 <i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i>
 </a>
 </h2>
-<p>I run a linux based server that is on my home network. It is headless (no monitor) and runs a handful of docker microservices. Most of them do not matter for this write-up, but one that does play a a fairly large role is my <a href=https://docs.linuxserver.io/images/docker-wireguard>Wireguard VPN</a> container, which my phone is 100% always connected to. This allows my to connect directly to my server from my phone using it&rsquo;s internal IP address and not needing to expose it to the internet.</p>
+<p>I run a linux based server that is on my home network. It is headless (no monitor) and runs a handful of docker microservices. Most of them do not matter for this write-up, but one that does play a a fairly large role is my <a href=https://docs.linuxserver.io/images/docker-wireguard>Wireguard VPN</a> container, which my phone is 100% always connected to. This allows my to connect directly to my server from my phone using it&rsquo;s internal IP address and not needing to expose it to the internet. I highly suggest that you do not expose this to the internet.</p>
 <p>My phone is Android 11 and has a kernal with wireguard built-in. This allows me to be connected to Wireguard all the time doesn&rsquo;t effect battery that much. K-9 mail was installed through <a href=https://f-droid.org/packages/com.fsck.k9/>f-droid</a>.</p>
 <p>I have ProntonMail Plus, which is needed in order to use the ProtonMail Bridge.</p>
 </section>
@@ -151,10 +151,10 @@ Install
 <p><figure>
 <picture>
 <source srcset=install_config-placeholder.webp data-srcset=install_config.webp type=image/webp>
-<img src=install_config-placeholder.png data-src=install_config.png type=image/png alt="Example picture from ProtonMail&amp;rsquo;s website" loading=lazy width=427 height=584>
+<img src=install_config-placeholder.png data-src=install_config.png type=image/png alt="Example popup from the ProtonMail website" loading=lazy width=427 height=584>
 </picture>
 <figcaption>
-<p class=caption>Example picture from ProtonMail&amp;rsquo;s website</p>
+<p class=caption>Example popup from the ProtonMail website</p>
 </figcaption>
 </figure></p>
 <p>Looking like the bridge was up and running, I launched K-9 Mail and started adding the account.</p>
@@ -164,7 +164,7 @@ K-9 Mail
 <i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i>
 </a>
 </h3>
-<p>I used the all the settings that ProtonMail gave me (username, password port) but for IP address I used the internal address for my server instead of <code>127.0.0.1</code>.
+<p>I used the all the settings that ProtonMail gave me (username, password and port) but for IP address I used the internal address for my server instead of <code>127.0.0.1</code>. I also set the <code>Security</code> to <code>STARTTLS</code>.
 <figure>
 <picture>
 <source srcset=k9_setup-placeholder.webp data-srcset=k9_setup.webp type=image/webp>
@@ -180,7 +180,8 @@ Issues
 <i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i>
 </a>
 </h3>
-<p>However, it failed to connect. After investigating I found that the ProtonMail Bridge only listens for requests from <code>127.0.0.1</code> i.e. the same computer it&rsquo;s running on. Alright, I know how to get arround that</p>
+<p>K-9 fails to connect. After investigating I found that the ProtonMail Bridge only listens for requests from <code>127.0.0.1</code> i.e. the same computer it&rsquo;s running on.
+Alright, I know how to get arround that</p>
 </section>
 <section>
 <h2 id=attempt-2---proxy-to-official-protonmail-bridge-deb>
@@ -195,7 +196,7 @@ Socat Proxy
 <i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i>
 </a>
 </h3>
-<p>I can use <code>socat</code> to proxy a different port taht will accept connections from all IP addresses and send to the ProtonBridge.</p>
+<p>I can use <code>socat</code> to proxy a different port that will accept connections from all IP addresses and proxy that to the ProtonBridge.</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>socat TCP-LISTEN:25,fork TCP:127.0.0.1:1025 <span class=p>&amp;</span>
 socat TCP-LISTEN:143,fork TCP:127.0.0.1:1143 <span class=p>&amp;</span>
 </code></pre></div><p>So now <code>SERVER_IP:25</code> -> <code>127.0.0.1:1025</code> and <code>SERVER_IP:143</code> -> <code>127.0.0.1:1143</code>.</p>
@@ -207,42 +208,23 @@ Issues
 </a>
 </h3>
 <p>It grabbed my folders/labels from ProntonMail correctly and I was able to send emails successfully, which was good. But there was no mail showing up in my inbox or any folder. I tried go through the K-9 settings to see if I was missing something but it all looked okay.</p>
-<p>I started going throught the logcat to see if there was anything and noticed there was an error message that K-9 was handling, <code>unsupported search query</code>.</p>
+<p>I started going through the Android logcat to see if there was any errors thing and noticed there was an error message that K-9 was handling, <code>unsupported search query</code>.</p>
 <p>I wasn&rsquo;t sure if this was from K-9 or from ProtonMail. Luckily both are open source so I could search and I found that it was from ProntMail</p>
 <p><a href=https://github.com/ProtonMail/proton-bridge/blob/6ff4c8a73853a3794656e530c6f073e02a22568f/internal/imap/mailbox_messages.go#L316>ProtonMail/proton-bridge/internal/imap/mailbox_messages.go#L316</a></p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>309
-</span><span class=lnt>310
-</span><span class=lnt>311
-</span><span class=lnt>312
-</span><span class=lnt>313
-</span><span class=lnt>314
-</span><span class=lnt>315
-</span><span class=hl><span class=lnt>316
-</span></span><span class=lnt>317
-</span><span class=lnt>318
-</span><span class=lnt>319
-</span><span class=lnt>320
-</span><span class=lnt>321
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=c1>// SearchMessages searches messages. The returned list must contain UIDs if
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=c1>// SearchMessages searches messages. The returned list must contain UIDs if
 </span><span class=c1>// uid is set to true, or sequence numbers otherwise.
 </span><span class=c1></span><span class=kd>func</span> <span class=p>(</span><span class=nx>im</span> <span class=o>*</span><span class=nx>imapMailbox</span><span class=p>)</span> <span class=nf>SearchMessages</span><span class=p>(</span><span class=nx>isUID</span> <span class=kt>bool</span><span class=p>,</span> <span class=nx>criteria</span> <span class=o>*</span><span class=nx>imap</span><span class=p>.</span><span class=nx>SearchCriteria</span><span class=p>)</span> <span class=p>(</span><span class=nx>ids</span> <span class=p>[]</span><span class=kt>uint32</span><span class=p>,</span> <span class=nx>err</span> <span class=kt>error</span><span class=p>)</span> <span class=p>{</span> <span class=c1>//nolint[gocyclo]
 </span><span class=c1></span>	<span class=c1>// Called from go-imap in goroutines - we need to handle panics for each function.
 </span><span class=c1></span>	<span class=k>defer</span> <span class=nx>im</span><span class=p>.</span><span class=nx>panicHandler</span><span class=p>.</span><span class=nf>HandlePanic</span><span class=p>()</span>
 
 	<span class=k>if</span> <span class=nx>criteria</span><span class=p>.</span><span class=nx>Not</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=o>||</span> <span class=nx>criteria</span><span class=p>.</span><span class=nx>Or</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
-<span class=hl>		<span class=k>return</span> <span class=kc>nil</span><span class=p>,</span> <span class=nx>errors</span><span class=p>.</span><span class=nf>New</span><span class=p>(</span><span class=s>&#34;unsupported search query&#34;</span><span class=p>)</span>
-</span>	<span class=p>}</span>
+		<span class=k>return</span> <span class=kc>nil</span><span class=p>,</span> <span class=nx>errors</span><span class=p>.</span><span class=nf>New</span><span class=p>(</span><span class=s>&#34;unsupported search query&#34;</span><span class=p>)</span>
+	<span class=p>}</span>
 
 	<span class=k>if</span> <span class=nx>criteria</span><span class=p>.</span><span class=nx>Body</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=o>||</span> <span class=nx>criteria</span><span class=p>.</span><span class=nx>Text</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
 		<span class=nx>log</span><span class=p>.</span><span class=nf>Warn</span><span class=p>(</span><span class=s>&#34;Body and Text criteria not applied&#34;</span><span class=p>)</span>
 	<span class=p>}</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>Either K-9 is passing <code>criteria.Not</code> or <code>criteria.Or</code>. It turns out it&rsquo;s <code>criteria.Not</code>.</p>
+</code></pre></div><p>So either K-9 is passing <code>criteria.Not</code> or <code>criteria.Or</code> when searching for messages. It turns out it&rsquo;s <code>criteria.Not</code>.</p>
 <p>Now I can either edit the K-9 source or ProtonMail Bridge source and try again. I decided to ProtonMail Bridge source route.</p>
 </section>
 <section>
@@ -252,15 +234,15 @@ Attempt 3 - Compile ProtonMail Bridge Myself
 <i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i>
 </a>
 </h2>
-<p>I was looking around and found this <a href=https://github.com/shenxn/protonmail-bridge-docker>great docker setup</a> by GitHub user <code>shenxn</code>. I wish I would have found this before trying the initial setup with a gui as this one uses the cli to login and has some good documentation of how to set it up. They also have an example of how to build the ProtonMail Bridge from source and deploy it as a docker and funny enough was doing the same proxying I was doing.</p>
+<p>As I was looking around, I found this <a href=https://github.com/shenxn/protonmail-bridge-docker>great docker setup</a> by GitHub user <code>shenxn</code>. I wish I would have found this before trying the initial setup with a gui, as this one uses the cli to login and has some good documentation of how to set it up.
+They also have an example of how to build the ProtonMail Bridge from source and deploy it as a docker and funny enough was doing the same proxying I was doing.</p>
 <h3 id=my-repo>
 My Repo
 <a class=heading-link href=#my-repo>
 <i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i>
 </a>
 </h3>
-<p>Using that repo as a source, I decided to make my own repo for a docker image that I can apply some patches to fix stuff as I see fit.</p>
-<p><a href=https://github.com/TChilderhose/protonmail-bridge-docker>Here is my repo</a></p>
+<p>Using that repo as a reference, I decided to make <a href=https://github.com/TChilderhose/protonmail-bridge-docker>my own repo</a> for a docker image that I can apply some patches to fix stuff as I see fit.</p>
 <p>The way that it works is</p>
 <ol>
 <li>I get the source code from <a href=https://github.com/ProtonMail/proton-bridge>https://github.com/ProtonMail/proton-bridge</a></li>
@@ -269,13 +251,13 @@ My Repo
 <li>Build the docker image</li>
 </ol>
 <p>Then when the docker image is spun up, it creates some <code>socat</code> proxies and starts the protonmail-bridge.</p>
+<p>With that setup, I tore down my previous attempts (uninstalled the bridge, took down the <code>socat</code> proxies) just to avoid conflicts.</p>
 <h3 id=solution>
 Solution
 <a class=heading-link href=#solution>
 <i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i>
 </a>
 </h3>
-<p>Firstly I tore down my previous attempts (uninstalled the bridge, took down the <code>socat</code> proxies) just to avoid conflicts.</p>
 <p>Setting up the docker is a two step process, first you need to do initialize to get your credentials</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>docker run --rm -it -v /path/to/protonmail:/root ghcr.io/tchilderhose/protonmail-bridge-docker init
 </code></pre></div><p>and follow the steps in the readme from the repo</p>
@@ -293,7 +275,7 @@ Solution
       - &#34;1143:143/tcp&#34;
     volumes:
       - /path/to/protonmail:/root
-</code></pre></div><p>With that running I updated my K-9 settings with those port numbers (1025, 1143) and it worked! All my emails started showing up</p>
+</code></pre></div><p>With that running I updated my K-9 settings with those port numbers (1025, 1143) and it worked! All my emails started showing up and it all seemed to be working.</p>
 </section>
 <section>
 <h2 id=summary>
@@ -302,7 +284,8 @@ Summary
 <i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i>
 </a>
 </h2>
-<p>Getting this working took a few attempts, but it wasn&rsquo;t overall too bad. While it&rsquo;s only been a few days that it&rsquo;s been setup, I&rsquo;ve had no issues and have been really happy with it. There is a lot of good settings to play around with in K-9 to get it setup just right. The one thing that is missing is sending via an alias, which is something I havn&rsquo;t needed to do yet, so I will cross that</p>
+<p>Getting this working took a few attempts, but it wasn&rsquo;t overall too bad. While it&rsquo;s only been a few days that it&rsquo;s been setup, I&rsquo;ve had no issues and have been really happy with it. There is a lot of good settings and documentation to play around with in K-9 to get it setup to my likeing.</p>
+<p>The one thing that is missing is sending via an alias. This isn&rsquo;t something I&rsquo;ve needed to do yet, snor do I think I will really do, but it is something to consider.</p>
 <p>ProtonMail keep saying a new mobile app will be rolling out by years end, so if/when that drops, I will need to reevaluate if I will switch to that or keep this setup. But currently I am really liking it so will probably be sticking with it for awhile.</p>
 </section>
 </div>
