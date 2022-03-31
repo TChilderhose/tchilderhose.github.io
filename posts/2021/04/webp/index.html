@@ -1,463 +1,134 @@
-<!doctype html><html lang=en data-theme=dark>
-<head>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta http-equiv=content-language content="en">
-<meta name=color-scheme content="light dark">
-<meta http-equiv=content-security-policy content="upgrade-insecure-requests; block-all-mixed-content; default-src 'self'; child-src 'self'; font-src 'self'; form-action 'self'; frame-src 'self' https://utteranc.es; img-src 'self'; object-src 'none'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://utteranc.es; prefetch-src 'self'; connect-src 'self';">
-<meta name=author content="Tyler Childerhose">
-<meta name=description content="Next on my list of optimizations I wanted to accomplish (and eager to learn) was Lazy-loading of images and using a &ldquo;modern&rdquo; image format for the web.">
-<meta name=keywords content="blog,developer,personal">
-<meta name=twitter:card content="summary">
-<meta name=twitter:title content="Lazy Loading Images & WebP">
-<meta name=twitter:description content="Next on my list of optimizations I wanted to accomplish (and eager to learn) was Lazy-loading of images and using a &ldquo;modern&rdquo; image format for the web.">
-<meta property="og:title" content="Lazy Loading Images & WebP">
-<meta property="og:description" content="Next on my list of optimizations I wanted to accomplish (and eager to learn) was Lazy-loading of images and using a &ldquo;modern&rdquo; image format for the web.">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://tchilderhose.ca/posts/2021/04/webp/"><meta property="article:section" content="posts">
-<meta property="article:published_time" content="2021-04-20T00:00:00+00:00">
-<meta property="article:modified_time" content="2021-04-20T00:00:00+00:00">
-<meta property="og:see_also" content="https://tchilderhose.ca/posts/2021/04/font/"><meta property="og:see_also" content="https://tchilderhose.ca/posts/2021/04/material/"><meta property="og:see_also" content="https://tchilderhose.ca/posts/2021/04/fontawesome/"><meta property="og:see_also" content="https://tchilderhose.ca/posts/2021/04/cssclean/"><meta property="og:see_also" content="https://tchilderhose.ca/posts/2021/04/env-setup/">
-<meta property="og:see_also" content="https://tchilderhose.ca/posts/2021/04/font/"><meta property="og:see_also" content="https://tchilderhose.ca/posts/2021/04/fontawesome/"><meta property="og:see_also" content="https://tchilderhose.ca/posts/2021/04/cssclean/">
-<title>
-Lazy Loading Images & WebP · TChilderhose
-</title>
-<link rel=canonical href=https://tchilderhose.ca/posts/2021/04/webp/>
-<link rel=stylesheet href=/css/site.min.29f52f0785a3d9356443584321059582c1f8a2abbf16869eb50599085a6df96b.css integrity="sha256-KfUvB4Wj2TVkQ1hDIQWVgsH4oqu/FoaetQWZCFpt+Ws=" crossorigin=anonymous>
-<link rel=icon type=image/png href=/images/favicon-32x32.png sizes=32x32>
-<link rel=icon type=image/png href=/images/favicon-16x16.png sizes=16x16>
-<link rel=apple-touch-icon href=/images/apple-touch-icon.png>
-<link rel=apple-touch-icon href=/images/apple-touch-icon.png sizes=180x180>
-<meta name=generator content="Hugo 0.92.0">
-<script>document.addEventListener("DOMContentLoaded",function(){document.querySelector(".preload-transitions").classList.remove("preload-transitions")})</script>
-</head>
-<body class=preload-transitions>
-<aside class=float-container>
-<ul>
-<li>
-<a id=to-top>
-<i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M8 256C8 119 119 8 256 8s248 111 248 248-111 248-248 248S8 393 8 256zm292 116V256h70.9c10.7.0 16.1-13 8.5-20.5L264.5 121.2c-4.7-4.7-12.2-4.7-16.9.0l-115 114.3c-7.6 7.6-2.2 20.5 8.5 20.5H212v116c0 6.6 5.4 12 12 12h64c6.6.0 12-5.4 12-12z"/></svg></i>
-</a>
-</li>
-<li>
-<a id=dark-mode-toggle>
-<i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M8 256c0 136.966 111.033 248 248 248s248-111.034 248-248S392.966 8 256 8 8 119.033 8 256zm248 184V72c101.705.0 184 82.311 184 184 0 101.705-82.311 184-184 184z"/></svg></i>
-</a>
-</li>
-</ul>
-</aside>
-<main class=wrapper>
-<nav class=navigation id=navbar>
-<section class=container>
-<a class=navigation-title href=/>
-TChilderhose
-</a>
-<ul class=navigation-list>
-<li class=navigation-item>
-<a class=navigation-link href=/posts/>Blog</a>
-</li>
-<li class=navigation-item>
-<a class=navigation-link href=/resume/>Resume</a>
-</li>
-</ul>
-</section>
-</nav>
-<div class=content>
-<section class=container>
-<aside class=toc>
-<h2 class=toc-title>Table of Contents</h2>
-<nav id=TableOfContents>
-<ul>
-<li><a href=#choosing-image-formats>Choosing Image Formats</a></li>
-<li><a href=#lazy-load-javascript>Lazy Load Javascript</a></li>
-<li><a href=#making-webp-and-placeholder-images>Making WebP and Placeholder Images</a></li>
-<li><a href=#hugo-partials>HUGO Partials</a>
-<ul>
-<li><a href=#render-imagehtml>render-image.html</a></li>
-<li><a href=#imagehtml>image.html</a></li>
-</ul>
-</li>
-<li><a href=#responsive-images>Responsive Images</a></li>
-<li><a href=#summary>Summary</a></li>
-</ul>
-</nav>
-</aside>
-<article class=post>
-<header>
-<div class=post-title>
-<h1 class=title>
-<a class=title-link href=https://tchilderhose.ca/posts/2021/04/webp/>
-Lazy Loading Images & WebP
-</a>
-</h1>
-</div>
-<div class=post-meta>
-<span class=posted-on>
-<i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentcolor" d="M0 464c0 26.5 21.5 48 48 48h352c26.5.0 48-21.5 48-48V192H0v272zm320-196c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6.0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6.0-12-5.4-12-12v-40zM192 268c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6.0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6.0-12-5.4-12-12v-40zM64 268c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6.0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6.0-12-5.4-12-12v-40zM4e2 64h-48V16c0-8.8-7.2-16-16-16h-32c-8.8.0-16 7.2-16 16v48H160V16c0-8.8-7.2-16-16-16h-32c-8.8.0-16 7.2-16 16v48H48C21.5 64 0 85.5.0 112v48h448v-48c0-26.5-21.5-48-48-48z"/></svg></i>
-<time datetime=2021-04-20T00:00:00Z>2021-04-20</time>
-</span>
+<!doctype html><html lang=en data-theme=dark><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=content-language content="en"><meta name=color-scheme content="light dark"><meta http-equiv=content-security-policy content="upgrade-insecure-requests; block-all-mixed-content; default-src 'self'; child-src 'self'; font-src 'self'; form-action 'self'; frame-src 'self' https://utteranc.es; img-src 'self'; object-src 'none'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://utteranc.es; prefetch-src 'self'; connect-src 'self';"><meta name=author content="Tyler Childerhose"><meta name=description content="Next on my list of optimizations I wanted to accomplish (and eager to learn) was Lazy-loading of images and using a &ldquo;modern&rdquo; image format for the web."><meta name=keywords content="blog,developer,personal"><meta name=twitter:card content="summary"><meta name=twitter:title content="Lazy Loading Images & WebP"><meta name=twitter:description content="Next on my list of optimizations I wanted to accomplish (and eager to learn) was Lazy-loading of images and using a &ldquo;modern&rdquo; image format for the web."><meta property="og:title" content="Lazy Loading Images & WebP"><meta property="og:description" content="Next on my list of optimizations I wanted to accomplish (and eager to learn) was Lazy-loading of images and using a &ldquo;modern&rdquo; image format for the web."><meta property="og:type" content="article"><meta property="og:url" content="https://tchilderhose.ca/posts/2021/04/webp/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2021-04-20T00:00:00+00:00"><meta property="article:modified_time" content="2021-04-20T00:00:00+00:00"><meta property="og:see_also" content="https://tchilderhose.ca/posts/2021/04/font/"><meta property="og:see_also" content="https://tchilderhose.ca/posts/2021/04/material/"><meta property="og:see_also" content="https://tchilderhose.ca/posts/2021/04/fontawesome/"><meta property="og:see_also" content="https://tchilderhose.ca/posts/2021/04/cssclean/"><meta property="og:see_also" content="https://tchilderhose.ca/posts/2021/04/env-setup/"><meta property="og:see_also" content="https://tchilderhose.ca/posts/2021/04/font/"><meta property="og:see_also" content="https://tchilderhose.ca/posts/2021/04/fontawesome/"><meta property="og:see_also" content="https://tchilderhose.ca/posts/2021/04/cssclean/"><title>Lazy Loading Images & WebP · TChilderhose</title><link rel=canonical href=https://tchilderhose.ca/posts/2021/04/webp/><link rel=stylesheet href=/css/site.min.29f52f0785a3d9356443584321059582c1f8a2abbf16869eb50599085a6df96b.css integrity="sha256-KfUvB4Wj2TVkQ1hDIQWVgsH4oqu/FoaetQWZCFpt+Ws=" crossorigin=anonymous><link rel=icon type=image/png href=/images/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/images/favicon-16x16.png sizes=16x16><link rel=apple-touch-icon href=/images/apple-touch-icon.png><link rel=apple-touch-icon href=/images/apple-touch-icon.png sizes=180x180><meta name=generator content="Hugo 0.96.0"><script>document.addEventListener("DOMContentLoaded",function(){document.querySelector(".preload-transitions").classList.remove("preload-transitions")})</script></head><body class=preload-transitions><aside class=float-container><ul><li><a id=to-top><i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M8 256C8 119 119 8 256 8s248 111 248 248-111 248-248 248S8 393 8 256zm292 116V256h70.9c10.7.0 16.1-13 8.5-20.5L264.5 121.2c-4.7-4.7-12.2-4.7-16.9.0l-115 114.3c-7.6 7.6-2.2 20.5 8.5 20.5H212v116c0 6.6 5.4 12 12 12h64c6.6.0 12-5.4 12-12z"/></svg></i></a></li><li><a id=dark-mode-toggle><i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M8 256c0 136.966 111.033 248 248 248s248-111.034 248-248S392.966 8 256 8 8 119.033 8 256zm248 184V72c101.705.0 184 82.311 184 184 0 101.705-82.311 184-184 184z"/></svg></i></a></li></ul></aside><main class=wrapper><nav class=navigation id=navbar><section class=container><a class=navigation-title href=/>TChilderhose</a><ul class=navigation-list><li class=navigation-item><a class=navigation-link href=/posts/>Blog</a></li><li class=navigation-item><a class=navigation-link href=/resume/>Resume</a></li></ul></section></nav><div class=content><section class=container><aside class=toc><h2 class=toc-title>Table of Contents</h2><nav id=TableOfContents><ul><li><a href=#choosing-image-formats>Choosing Image Formats</a></li><li><a href=#lazy-load-javascript>Lazy Load Javascript</a></li><li><a href=#making-webp-and-placeholder-images>Making WebP and Placeholder Images</a></li><li><a href=#hugo-partials>HUGO Partials</a><ul><li><a href=#render-imagehtml>render-image.html</a></li><li><a href=#imagehtml>image.html</a></li></ul></li><li><a href=#responsive-images>Responsive Images</a></li><li><a href=#summary>Summary</a></li></ul></nav></aside><article class=post><header><div class=post-title><h1 class=title><a class=title-link href=https://tchilderhose.ca/posts/2021/04/webp/>Lazy Loading Images & WebP</a></h1></div><div class=post-meta><span class=posted-on><i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentcolor" d="M0 464c0 26.5 21.5 48 48 48h352c26.5.0 48-21.5 48-48V192H0v272zm320-196c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6.0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6.0-12-5.4-12-12v-40zM192 268c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6.0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6.0-12-5.4-12-12v-40zM64 268c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6.0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6.0-12-5.4-12-12v-40zM4e2 64h-48V16c0-8.8-7.2-16-16-16h-32c-8.8.0-16 7.2-16 16v48H160V16c0-8.8-7.2-16-16-16h-32c-8.8.0-16 7.2-16 16v48H48C21.5 64 0 85.5.0 112v48h448v-48c0-26.5-21.5-48-48-48z"/></svg></i><time datetime=2021-04-20T00:00:00Z>2021-04-20</time></span>
 &nbsp;
-<span class=reading-time>
-<i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M256 8C119 8 8 119 8 256S119 504 256 504 504 393 504 256 393 8 256 8zm92.49 313h0l-20 25A16 16 0 01306 348.5h0l-67-49.72a40 40 0 01-15-31.23V112a16 16 0 0116-16h32a16 16 0 0116 16V256l58 42.5A16 16 0 01348.49 321z"/></svg></i>9-minute read</span>
+<span class=reading-time><i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M256 8C119 8 8 119 8 256S119 504 256 504 504 393 504 256 393 8 256 8zm92.49 313h0l-20 25A16 16 0 01306 348.5h0l-67-49.72a40 40 0 01-15-31.23V112a16 16 0 0116-16h32a16 16 0 0116 16V256l58 42.5A16 16 0 01348.49 321z"/></svg></i>9-minute read</span>
 &nbsp;
-<span class=tags>
-<i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M0 252.118V48C0 21.49 21.49.0 48 0h204.118a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137.0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882.0L14.059 286.059A48 48 0 010 252.118zM112 64c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg></i>
-<a class=tag-link href=/tags/hugo/>hugo</a>
+<span class=tags><i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M0 252.118V48C0 21.49 21.49.0 48 0h204.118a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137.0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882.0L14.059 286.059A48 48 0 010 252.118zM112 64c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg></i><a class=tag-link href=/tags/hugo/>hugo</a>
 <span class=separator>•</span>
 <a class=tag-link href=/tags/optimizations/>optimizations</a>
 <span class=separator>•</span>
 <a class=tag-link href=/tags/webp/>webp</a>
 <span class=separator>•</span>
-<a class=tag-link href=/tags/lazyload/>lazyload</a></span>
-</div>
-</header>
-<div>
-<p>Next on my list of optimizations I wanted to accomplish (and eager to learn) was Lazy-loading of images and using a &ldquo;modern&rdquo; image format for the web.</p>
-<p>After Materializing the site, I&rsquo;ve been doing a lot of cleanup of CSS to help make the site more responsive. I referenced some W3C and Bootstrap best practices and changed as many <code>px</code> to <code>rem</code>/<code>em</code> as seemed reasonable (I think all that remains is the base font size and some 1px shifts for minor things). I&rsquo;ve also added a scroll to top button, table of contents and a few other quality of life changes.</p>
-<p>With the responsive design changes in CSS, it&rsquo;s time to look into applying that to the images.</p>
-<ul>
-<li><del>Removing unused CSS</del></li>
-<li><del>Minifying/Removing FontAwesome</del></li>
-<li>Minimizing requests to 3rd parties (fonts, metrics, etc)</li>
-<li>Remove Google Fonts while still looking appealing</li>
-<li>Minimizing use of JavaScript</li>
-<li><del><strong>Converting Images to WebP or some other optimized formats</strong></del></li>
-</ul>
-<section>
-<h2 id=choosing-image-formats>
-Choosing Image Formats
-<a class=heading-link href=#choosing-image-formats>
-<i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i>
-</a>
-</h2>
-<p>The base format for images I am using is going to be <code>png</code>. It&rsquo;s the format I&rsquo;m most familiar with and with 99% of my images coming from a digital nature (ie not from a camera) it makes the most sense for me.</p>
-<p>For the &ldquo;modern&rdquo; image formats there was a few options, but really only one logical choice.</p>
-<table>
-<thead>
-<tr>
-<th>Format</th>
-<th>Browser Support</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>WebP</td>
-<td><a href="https://caniuse.com/?search=webp">~93.5%</a></td>
-</tr>
-<tr>
-<td>AVIF</td>
-<td><a href="https://caniuse.com/?search=avif">~63.0%</a></td>
-</tr>
-<tr>
-<td>JPEG 2000</td>
-<td><a href="https://caniuse.com/?search=jpeg2000">~18.5%</a></td>
-</tr>
-<tr>
-<td>JPEG XL</td>
-<td><a href="https://caniuse.com/?search=jpegxl">0%</a></td>
-</tr>
-</tbody>
-</table>
-<p>Maybe in the future <code>AVIF</code> will be more widespread, but right now <code>WebP</code> is the safe choice to start with.</p>
-</section>
-<section>
-<h2 id=lazy-load-javascript>
-Lazy Load Javascript
-<a class=heading-link href=#lazy-load-javascript>
-<i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i>
-</a>
-</h2>
-<p>First thing to start with is the Javascript as it will help explain how I am setting up the <code>Picture</code> elements later to work with Lazyloading.</p>
-<p>We will be adding <code>loading="lazy"</code> to our images, so we need to query all of those</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=kr>const</span> <span class=nx>lazyImages</span> <span class=o>=</span> <span class=nb>document</span><span class=p>.</span><span class=nx>querySelectorAll</span><span class=p>(</span><span class=s1>&#39;img[loading=&#34;lazy&#34;]&#39;</span><span class=p>);</span>
-</code></pre></div><p>Next is the function to &ldquo;load&rdquo; the image. It doesn&rsquo;t really load it, but instead the src is swapped and defers to the browser to do it&rsquo;s thing. In the partials that are created later on, we initially have the <code>img.src</code> set to a blurry placeholder, so we need to swap in the real image. There is a field added to the <code>source</code> element (<code>data-srcset</code>) and one to the <code>img</code> element (<code>data-src</code>).</p>
-<p>So the function is basically moving</p>
-<ul>
-<li><code>source.data-srcset</code> -> <code>source.srcset</code></li>
-<li><code>img.data-src</code> -> <code>img.src</code></li>
-</ul>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=kd>function</span> <span class=nx>loadImg</span><span class=p>(</span><span class=nx>img</span><span class=p>)</span>
-<span class=p>{</span>
-    <span class=kr>const</span> <span class=nx>source</span> <span class=o>=</span> <span class=nx>img</span><span class=p>.</span><span class=nx>parentElement</span><span class=p>.</span><span class=nx>querySelector</span><span class=p>(</span><span class=s1>&#39;source&#39;</span><span class=p>);</span>        
-    <span class=nx>source</span><span class=p>.</span><span class=nx>srcset</span> <span class=o>=</span> <span class=nx>source</span><span class=p>.</span><span class=nx>getAttribute</span><span class=p>(</span><span class=s1>&#39;data-srcset&#39;</span><span class=p>);</span>
-    <span class=nx>img</span><span class=p>.</span><span class=nx>src</span> <span class=o>=</span> <span class=nx>img</span><span class=p>.</span><span class=nx>getAttribute</span><span class=p>(</span><span class=s1>&#39;data-src&#39;</span><span class=p>);</span>
-<span class=p>}</span>
-</code></pre></div><p>Next we need to check if the browser has native lazy loading support. As of writing, <a href=https://caniuse.com/loading-lazy-attr>~74% browsers support it.</a>. The main browser lacking the support is Safari, but it&rsquo;s apparently close to being done.</p>
-<p>With native lazy loading, we can just instantly defer all the images to the browser itself as it will handle the lazy loading of the images for us. We just need to iterate through the images and swap the srcs to the actual images.</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=k>if</span> <span class=p>(</span><span class=s1>&#39;loading&#39;</span> <span class=k>in</span> <span class=nx>HTMLImageElement</span><span class=p>.</span><span class=nx>prototype</span><span class=p>)</span> <span class=p>{</span>
-    <span class=nx>lazyImages</span><span class=p>.</span><span class=nx>forEach</span><span class=p>(</span><span class=nx>img</span> <span class=p>=&gt;</span> <span class=p>{</span> <span class=nx>loadImg</span><span class=p>(</span><span class=nx>img</span><span class=p>);</span>  <span class=p>})</span>
-<span class=p>}</span> 
-</code></pre></div><p>For the browsers that don&rsquo;t support native lazy loading, anything that is set in the <code>src</code> and <code>srcset</code> are instantly loaded. So what we want is to wait until the image is in the viewport before it loads the full sized image.</p>
-<p>To achieve this we use the <code>IntersectionObserver</code>. When the image has even a pixel on the screen, <code>isIntersecting</code> is true and we swap the <code>src</code>. While it&rsquo;s deferred to the browser like in native lazy loading, it is actually fully loaded.</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=k>else</span> <span class=p>{</span>
-    <span class=kr>const</span> <span class=nx>imgObserver</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>IntersectionObserver</span><span class=p>((</span><span class=nx>entries</span><span class=p>,</span> <span class=nx>self</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
-        <span class=nx>entries</span><span class=p>.</span><span class=nx>forEach</span><span class=p>(</span><span class=nx>entry</span> <span class=p>=&gt;</span> <span class=p>{</span>
-            <span class=k>if</span> <span class=p>(</span><span class=nx>entry</span><span class=p>.</span><span class=nx>isIntersecting</span><span class=p>)</span> <span class=p>{</span>
-                <span class=nx>self</span><span class=p>.</span><span class=nx>unobserve</span><span class=p>(</span><span class=nx>entry</span><span class=p>.</span><span class=nx>target</span><span class=p>);</span>
-                <span class=nx>loadImg</span><span class=p>(</span><span class=nx>entry</span><span class=p>.</span><span class=nx>target</span><span class=p>);</span>
-            <span class=p>}</span>
-        <span class=p>});</span>
-    <span class=p>});</span>
-    <span class=nx>lazyImages</span><span class=p>.</span><span class=nx>forEach</span><span class=p>(</span><span class=nx>img</span> <span class=p>=&gt;</span> <span class=p>{</span> <span class=nx>imgObserver</span><span class=p>.</span><span class=nx>observe</span><span class=p>(</span><span class=nx>img</span><span class=p>);</span>  <span class=p>})</span>
-<span class=p>}</span> 
-</code></pre></div><p>And here is the script in total</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=c1>//Lazy-load
-</span><span class=c1></span><span class=kd>function</span> <span class=nx>loadImg</span><span class=p>(</span><span class=nx>img</span><span class=p>)</span>
-<span class=p>{</span>
-    <span class=kr>const</span> <span class=nx>source</span> <span class=o>=</span> <span class=nx>img</span><span class=p>.</span><span class=nx>parentElement</span><span class=p>.</span><span class=nx>querySelector</span><span class=p>(</span><span class=s1>&#39;source&#39;</span><span class=p>);</span>        
-    <span class=nx>source</span><span class=p>.</span><span class=nx>srcset</span> <span class=o>=</span> <span class=nx>source</span><span class=p>.</span><span class=nx>getAttribute</span><span class=p>(</span><span class=s1>&#39;data-srcset&#39;</span><span class=p>);</span>
-    <span class=nx>img</span><span class=p>.</span><span class=nx>src</span> <span class=o>=</span> <span class=nx>img</span><span class=p>.</span><span class=nx>getAttribute</span><span class=p>(</span><span class=s1>&#39;data-src&#39;</span><span class=p>);</span>
-<span class=p>}</span>
-
-<span class=kr>const</span> <span class=nx>lazyImages</span> <span class=o>=</span> <span class=nb>document</span><span class=p>.</span><span class=nx>querySelectorAll</span><span class=p>(</span><span class=s1>&#39;img[loading=&#34;lazy&#34;]&#39;</span><span class=p>);</span>
-<span class=k>if</span> <span class=p>(</span><span class=s1>&#39;loading&#39;</span> <span class=k>in</span> <span class=nx>HTMLImageElement</span><span class=p>.</span><span class=nx>prototype</span><span class=p>)</span> <span class=p>{</span>
-    <span class=nx>lazyImages</span><span class=p>.</span><span class=nx>forEach</span><span class=p>(</span><span class=nx>img</span> <span class=p>=&gt;</span> <span class=p>{</span> <span class=nx>loadImg</span><span class=p>(</span><span class=nx>img</span><span class=p>);</span>  <span class=p>})</span>
-<span class=p>}</span> 
-<span class=k>else</span> <span class=p>{</span>
-    <span class=kr>const</span> <span class=nx>imgObserver</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>IntersectionObserver</span><span class=p>((</span><span class=nx>entries</span><span class=p>,</span> <span class=nx>self</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
-        <span class=nx>entries</span><span class=p>.</span><span class=nx>forEach</span><span class=p>(</span><span class=nx>entry</span> <span class=p>=&gt;</span> <span class=p>{</span>
-            <span class=k>if</span> <span class=p>(</span><span class=nx>entry</span><span class=p>.</span><span class=nx>isIntersecting</span><span class=p>)</span> <span class=p>{</span>
-                <span class=nx>self</span><span class=p>.</span><span class=nx>unobserve</span><span class=p>(</span><span class=nx>entry</span><span class=p>.</span><span class=nx>target</span><span class=p>);</span>
-                <span class=nx>loadImg</span><span class=p>(</span><span class=nx>entry</span><span class=p>.</span><span class=nx>target</span><span class=p>);</span>
-            <span class=p>}</span>
-        <span class=p>});</span>
-    <span class=p>});</span>
-    <span class=nx>lazyImages</span><span class=p>.</span><span class=nx>forEach</span><span class=p>(</span><span class=nx>img</span> <span class=p>=&gt;</span> <span class=p>{</span> <span class=nx>imgObserver</span><span class=p>.</span><span class=nx>observe</span><span class=p>(</span><span class=nx>img</span><span class=p>);</span>  <span class=p>})</span>
-<span class=p>}</span> 
-</code></pre></div></section>
-<section>
-<h2 id=making-webp-and-placeholder-images>
-Making WebP and Placeholder Images
-<a class=heading-link href=#making-webp-and-placeholder-images>
-<i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i>
-</a>
-</h2>
-<p>I downloaded the latest <a href=https://developers.google.com/speed/webp/docs/precompiled>precompiled cwebp</a> and placed in my <code>./bin</code> folder of my repo (obviously feel free to place somewhere else).</p>
-<p>I then made a script that will search all my folders for <code>png</code> files, ignoring favicons and placeholders.</p>
-<p>It will then check if an existing image exists and if not create one for the following</p>
-<ul>
-<li>Full-sized <code>webp</code> version of the png</li>
-<li>Placeholder <code>png</code> (width set to 16px - height auto)</li>
-<li>Placeholder <code>webp</code> (width set to 16px - height auto)</li>
-</ul>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=cp>#!/usr/bin/env bash
-</span><span class=cp></span>
-<span class=nv>var</span><span class=o>=</span><span class=sb>`</span>find . -not -path <span class=s2>&#34;./public/*&#34;</span> -not -name <span class=s2>&#34;apple-touch-icon*&#34;</span> -not -name <span class=s2>&#34;favicon*&#34;</span> -not -name <span class=s2>&#34;*-placeholder*&#34;</span> -name <span class=s2>&#34;*.png&#34;</span> <span class=p>|</span> sed <span class=s1>&#39;s/.png//&#39;</span><span class=sb>`</span>
-
-<span class=k>for</span> fileName in <span class=nv>$var</span>
-<span class=k>do</span> 
-    <span class=nb>echo</span> <span class=s2>&#34;</span><span class=nv>$fileName</span><span class=s2>&#34;</span>
-    <span class=k>if</span> <span class=o>[</span> ! -f <span class=s2>&#34;</span><span class=nv>$fileName</span><span class=s2>&#34;</span>.webp <span class=o>]</span><span class=p>;</span> <span class=k>then</span> 
-        ./bin/cwebp -preset picture -q <span class=m>100</span> -m <span class=m>6</span> -lossless -z <span class=m>9</span> <span class=s2>&#34;</span><span class=nv>$fileName</span><span class=s2>&#34;</span>.png -o <span class=s2>&#34;</span><span class=nv>$fileName</span><span class=s2>&#34;</span>.webp //digital
-        <span class=c1>#./bin/cwebp -preset photo -q 100 -m 6 &#34;$fileName&#34;.png -o &#34;$fileName&#34;.webp //analog</span>
-    <span class=k>fi</span>
-
-    <span class=k>if</span> <span class=o>[</span> ! -f <span class=s2>&#34;</span><span class=nv>$fileName</span><span class=s2>&#34;</span>-placeholder.png <span class=o>]</span><span class=p>;</span> <span class=k>then</span> 
-        convert <span class=s2>&#34;</span><span class=nv>$fileName</span><span class=s2>&#34;</span>.png -resize <span class=m>16</span> -quality <span class=m>00</span> png8:<span class=s2>&#34;</span><span class=nv>$fileName</span><span class=s2>&#34;</span>-placeholder.png
-    <span class=k>fi</span>
-    <span class=k>if</span> <span class=o>[</span> ! -f <span class=s2>&#34;</span><span class=nv>$fileName</span><span class=s2>&#34;</span>-placeholder.webp <span class=o>]</span><span class=p>;</span> <span class=k>then</span> 
-        ./bin/cwebp <span class=s2>&#34;</span><span class=nv>$fileName</span><span class=s2>&#34;</span>-placeholder.png -o <span class=s2>&#34;</span><span class=nv>$fileName</span><span class=s2>&#34;</span>-placeholder.webp
-    <span class=k>fi</span>
-<span class=k>done</span>
-</code></pre></div><p>I did a lot of testing and went with lossless compression on the pngs. It actually compressed the best and looks great. I am guessing it&rsquo;s due to most of my images being digital screencaps. 🤷</p>
-</section>
-<section>
-<h2 id=hugo-partials>
-HUGO Partials
-<a class=heading-link href=#hugo-partials>
-<i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i>
-</a>
-</h2>
-<p>Now that we got the images, its time to create the two partials that we will need. A normal partial and a special partial that Hugo hooks into.</p>
-<h3 id=render-imagehtml>
-render-image.html
-<a class=heading-link href=#render-imagehtml>
-<i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i>
-</a>
-</h3>
-<p>We&rsquo;ll start with the one that Hugo hooks into as it&rsquo;s fairly simple. There are 3 of these that hugo uses (<a href=https://gohugo.io/getting-started/configuration-markup#markdown-render-hooks>read more</a>).</p>
-<p>This allows the pretty great markdown image short code in Hugo to use the partial to render.</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-md data-lang=md>![<span class=nt>Some Image Caption</span>](<span class=na>image.png</span>)
-</code></pre></div><p>So create the file <code>layouts/_default/_markup/render-image.html</code></p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html>//layouts/_default/_markup/render-image.html
-<span class=p>&lt;</span><span class=nt>figure</span><span class=p>&gt;</span>
-    {{ $image := .Page.Resources.GetMatch (printf &#34;%s&#34; (.Destination | safeURL)) }}
-    {{ partial &#34;image&#34; (dict &#34;path&#34; .Destination &#34;alt&#34; .Text &#34;width&#34; $image.Width &#34;height&#34; $image.Height)}}
-    <span class=p>&lt;</span><span class=nt>figcaption</span><span class=p>&gt;</span>
-        <span class=p>&lt;</span><span class=nt>p</span> <span class=na>class</span><span class=o>=</span><span class=s>&#34;caption&#34;</span><span class=p>&gt;</span>{{ .Text }}<span class=p>&lt;/</span><span class=nt>p</span><span class=p>&gt;</span>
-    <span class=p>&lt;/</span><span class=nt>figcaption</span><span class=p>&gt;</span>
-<span class=p>&lt;/</span><span class=nt>figure</span><span class=p>&gt;</span>
-</code></pre></div><p>The <code>figure</code> stuff can be ignored, the only things that really matter are</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html>{{ $image := .Page.Resources.GetMatch (printf &#34;%s&#34; (.Destination | safeURL)) }}
-{{ partial &#34;image&#34; (dict &#34;path&#34; .Destination &#34;alt&#34; .Text &#34;width&#34; $image.Width &#34;height&#34; $image.Height)}}
-</code></pre></div><p>This will grab the image stats and pass them to the <code>image</code> partial we&rsquo;re going to create next. To breakdown the options a bit</p>
-<ul>
-<li>&ldquo;path&rdquo; .Destination
-<ul>
-<li>Where the Image png is</li>
-</ul>
-</li>
-<li>&ldquo;alt&rdquo; .Text
-<ul>
-<li>Alt text to be placed on the image</li>
-</ul>
-</li>
-<li>&ldquo;width&rdquo; $image.Width
-<ul>
-<li>Image Width</li>
-</ul>
-</li>
-<li>&ldquo;height&rdquo; $image.Height
-<ul>
-<li>Image Height</li>
-</ul>
-</li>
-</ul>
-<h3 id=imagehtml>
-image.html
-<a class=heading-link href=#imagehtml>
-<i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i>
-</a>
-</h3>
-<p>Now for the main partial file. Create a <code>./layouts/partials/image.html</code>.</p>
-<p>As talked about before, one of the things being passed in is <code>path</code>. We need to use this to construct all the other image paths for the images we created (webp, placeholders) in the script.</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html>{{ $webpPath:= (replace .path &#34;.png&#34; &#34;.webp&#34;)}} 
-{{ $webpPlaceholderPath:= (replace .path &#34;.png&#34; &#34;-placeholder.webp&#34;)}}
-{{ $pngPlaceholderPath:= (replace .path &#34;.png&#34; &#34;-placeholder.png&#34;)}} 
-</code></pre></div><p>We create a <code>source</code> element and set the normal <code>srcset</code> to the placeholder image, and a custom <code>data-srcset</code> that points to the full-size webp.</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html>  <span class=p>&lt;</span><span class=nt>source</span>
-    <span class=na>srcset</span><span class=o>=</span><span class=s>&#34;{{ $webpPlaceholderPath | safeURL }}&#34;</span> 
-    <span class=na>data-srcset</span><span class=o>=</span><span class=s>&#34;{{ $webpPath | safeURL }}&#34;</span> 
-    <span class=na>type</span><span class=o>=</span><span class=s>&#34;image/webp&#34;</span> <span class=p>&gt;</span>
-</code></pre></div><p>We then create an <code>img</code> element and set the normal <code>src</code> to the placeholder image, and a custom <code>data-src</code> that points to the full-size png. Also set some other good practice attributes and add <code>loading="lazy"</code>.</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=p>&lt;</span><span class=nt>img</span> 
-    <span class=na>src</span><span class=o>=</span><span class=s>&#34;{{ $pngPlaceholderPath | safeURL }}&#34;</span>
-    <span class=na>data-src</span><span class=o>=</span><span class=s>&#34;{{ .path | safeURL }}&#34;</span> 
-    <span class=na>type</span><span class=o>=</span><span class=s>&#34;image/png&#34;</span> 
-    <span class=na>loading</span><span class=o>=</span><span class=s>&#34;lazy&#34;</span>
-    <span class=na>alt</span><span class=o>=</span><span class=s>&#34;{{ .alt }}&#34;</span>
-    <span class=na>width</span><span class=o>=</span><span class=s>&#34;{{ .width }}&#34;</span>
-    <span class=na>height</span><span class=o>=</span><span class=s>&#34;{{ .height }}&#34;</span> <span class=p>&gt;</span>
-</code></pre></div><p>And here is the partial in full.</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=p>&lt;</span><span class=nt>picture</span> <span class=na>class</span><span class=o>=</span><span class=s>&#34;{{ .class }}&#34;</span><span class=p>&gt;</span>
-  {{ $webpPath:= (replace .path &#34;.png&#34; &#34;.webp&#34;)}} 
-  {{ $webpPlaceholderPath:= (replace .path &#34;.png&#34; &#34;-placeholder.webp&#34;)}}
-  <span class=p>&lt;</span><span class=nt>source</span>
-    <span class=na>srcset</span><span class=o>=</span><span class=s>&#34;{{ $webpPlaceholderPath | safeURL }}&#34;</span> 
-    <span class=na>data-srcset</span><span class=o>=</span><span class=s>&#34;{{ $webpPath | safeURL }}&#34;</span> 
-    <span class=na>type</span><span class=o>=</span><span class=s>&#34;image/webp&#34;</span> <span class=p>&gt;</span>
-    
-  {{ $pngPlaceholderPath:= (replace .path &#34;.png&#34; &#34;-placeholder.png&#34;)}} 
-  <span class=p>&lt;</span><span class=nt>img</span> 
-    <span class=na>src</span><span class=o>=</span><span class=s>&#34;{{ $pngPlaceholderPath | safeURL }}&#34;</span>
-    <span class=na>data-src</span><span class=o>=</span><span class=s>&#34;{{ .path | safeURL }}&#34;</span> 
-    <span class=na>type</span><span class=o>=</span><span class=s>&#34;image/png&#34;</span> 
-    <span class=na>alt</span><span class=o>=</span><span class=s>&#34;{{ .alt }}&#34;</span>
-    <span class=na>loading</span><span class=o>=</span><span class=s>&#34;lazy&#34;</span>
-    <span class=na>width</span><span class=o>=</span><span class=s>&#34;{{ .width }}&#34;</span>
-    <span class=na>height</span><span class=o>=</span><span class=s>&#34;{{ .height }}&#34;</span> <span class=p>&gt;</span>
-<span class=p>&lt;/</span><span class=nt>picture</span><span class=p>&gt;</span>
-</code></pre></div><p>Now this partial can be used around the site similar to how the <code>render-image.html</code> uses it. Here is a snippet of how I use it for the Avatar on the homepage.</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html> {{ partial &#34;image&#34; (dict &#34;path&#34; &#34;images/avatar.png&#34; &#34;class&#34; &#34;avatar&#34; &#34;alt&#34; &#34;avatar&#34; &#34;width&#34; &#34;200&#34; &#34;height&#34; &#34;200&#34;)}}
-</code></pre></div><p>Pretty easy.</p>
-</section>
-<section>
-<h2 id=responsive-images>
-Responsive Images
-<a class=heading-link href=#responsive-images>
-<i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i>
-</a>
-</h2>
-<p>So. I wanted to do responsive images, where it serves smaller images depending on the screen size, but ran into some issues.</p>
-<p>I have a working modified partial that handles it great. But no matter what tool I used to resize the images, the smaller (in dimension) images were either larger (in file size) than the original or had terrible artifacts.</p>
-<p>Here is a breakdown and order of stuff I tried. For stats on these I will compare the original ~1000px width webp image (~25kb) to a target image with width of 640px.</p>
-<ol>
-<li>Webp resize caused terrible banding on solid colors.</li>
-<li>Added Dithering prior to Webp resize. Was still somewhat noticeable plus the file size increased (~40kb)</li>
-<li>Resized PNG using <a href=https://imagemagick.org/index.php>ImageMagick</a> and then converted to Webp. Artifacts gone but Webp was large (~120kb)</li>
-<li>Resized PNG using <a href=https://imagemagick.org/index.php>ImageMagick</a>, compressed png with <a href=https://pngquant.org/>pngquant</a> and then converted to Webp. Better, but still large (~60kb)</li>
-<li>Resized PNG using <a href=https://imagemagick.org/index.php>ImageMagick</a>, compressed png with <a href=http://optipng.sourceforge.net/>optipng</a> and then converted to Webp. Better, but still large (~70kb)</li>
-</ol>
-<p>For each step, I tried a variety of different <code>webp</code> settings to reduce the size. I also tried a bunch of settings for <code>ImageMagick</code> and the compressors but just couldn&rsquo;t get it to work.</p>
-<p>So while I would have loved to have responsive images, I was spending too much time to get it to work. At the end of the day, I think a ~25kb for a full sized image is actually really good, so I am not going to be spending more time on it for now.</p>
-</section>
-<section>
-<h2 id=summary>
-Summary
-<a class=heading-link href=#summary>
-<i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i>
-</a>
-</h2>
-<p>Getting the base webp structure and lazy loading working was pretty simple to do and were fun topics to read up on. These are the kind of things I love to read up on.</p>
-<p>I didn&rsquo;t know about the <code>Picture</code> tag before doing this and how browsers try to load webp images and have basically a fail-over if it doesn&rsquo;t support webp.</p>
-<p>Reading up on the native and all the different js lazy-loading techniques of elements was very interesting as well.</p>
-<p>A next step for future me to look into would maybe adding <code>AVIF</code> support on top of this logic and maybe cropping the width of images that are too large at max size. But that&rsquo;s lower on my list right now.</p>
-</section>
-</div>
-<footer>
-<section class=see-also>
-<h3 id=see-also-in-hugo>
-See also in hugo
-<a class=heading-link href=#see-also-in-hugo>
-<i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i>
-</a>
-</h3>
-<nav>
-<ul>
-<li>
-<a href=/posts/2021/04/font/>Removing Google Fonts & Other 3rd Parties</a>
-</li>
-<li>
-<a href=/posts/2021/04/material/>Materialize</a>
-</li>
-<li>
-<a href=/posts/2021/04/fontawesome/>Removing FontAwesome</a>
-</li>
-<li>
-<a href=/posts/2021/04/cssclean/>Minimizing CSS in Hugo</a>
-</li>
-<li>
-<a href=/posts/2021/04/env-setup/>Environment & Hosting Setup</a>
-</li>
-</ul>
-</nav>
-<h3 id=see-also-in-optimizations>
-See also in optimizations
-<a class=heading-link href=#see-also-in-optimizations>
-<i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i>
-</a>
-</h3>
-<nav>
-<ul>
-<li>
-<a href=/posts/2021/04/font/>Removing Google Fonts & Other 3rd Parties</a>
-</li>
-<li>
-<a href=/posts/2021/04/fontawesome/>Removing FontAwesome</a>
-</li>
-<li>
-<a href=/posts/2021/04/cssclean/>Minimizing CSS in Hugo</a>
-</li>
-</ul>
-</nav>
-</section>
-<div id=utterance-container src=https://utteranc.es/client.js repo=TChilderhose/tchilderhose.github.io issue-term=pathname label=comment crossorigin=anonymous>
-</div>
-</footer>
-</article>
-</section>
-</div>
-<footer class=footer>
-<section class=container>
-©
+<a class=tag-link href=/tags/lazyload/>lazyload</a></span></div></header><div><p>Next on my list of optimizations I wanted to accomplish (and eager to learn) was Lazy-loading of images and using a &ldquo;modern&rdquo; image format for the web.</p><p>After Materializing the site, I&rsquo;ve been doing a lot of cleanup of CSS to help make the site more responsive. I referenced some W3C and Bootstrap best practices and changed as many <code>px</code> to <code>rem</code>/<code>em</code> as seemed reasonable (I think all that remains is the base font size and some 1px shifts for minor things). I&rsquo;ve also added a scroll to top button, table of contents and a few other quality of life changes.</p><p>With the responsive design changes in CSS, it&rsquo;s time to look into applying that to the images.</p><ul><li><del>Removing unused CSS</del></li><li><del>Minifying/Removing FontAwesome</del></li><li>Minimizing requests to 3rd parties (fonts, metrics, etc)</li><li>Remove Google Fonts while still looking appealing</li><li>Minimizing use of JavaScript</li><li><del><strong>Converting Images to WebP or some other optimized formats</strong></del></li></ul><section><h2 id=choosing-image-formats>Choosing Image Formats
+<a class=heading-link href=#choosing-image-formats><i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i></a></h2><p>The base format for images I am using is going to be <code>png</code>. It&rsquo;s the format I&rsquo;m most familiar with and with 99% of my images coming from a digital nature (ie not from a camera) it makes the most sense for me.</p><p>For the &ldquo;modern&rdquo; image formats there was a few options, but really only one logical choice.</p><table><thead><tr><th>Format</th><th>Browser Support</th></tr></thead><tbody><tr><td>WebP</td><td><a href="https://caniuse.com/?search=webp">~93.5%</a></td></tr><tr><td>AVIF</td><td><a href="https://caniuse.com/?search=avif">~63.0%</a></td></tr><tr><td>JPEG 2000</td><td><a href="https://caniuse.com/?search=jpeg2000">~18.5%</a></td></tr><tr><td>JPEG XL</td><td><a href="https://caniuse.com/?search=jpegxl">0%</a></td></tr></tbody></table><p>Maybe in the future <code>AVIF</code> will be more widespread, but right now <code>WebP</code> is the safe choice to start with.</p></section><section><h2 id=lazy-load-javascript>Lazy Load Javascript
+<a class=heading-link href=#lazy-load-javascript><i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i></a></h2><p>First thing to start with is the Javascript as it will help explain how I am setting up the <code>Picture</code> elements later to work with Lazyloading.</p><p>We will be adding <code>loading="lazy"</code> to our images, so we need to query all of those</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kr>const</span> <span class=nx>lazyImages</span> <span class=o>=</span> <span class=nb>document</span><span class=p>.</span><span class=nx>querySelectorAll</span><span class=p>(</span><span class=s1>&#39;img[loading=&#34;lazy&#34;]&#39;</span><span class=p>);</span>
+</span></span></code></pre></div><p>Next is the function to &ldquo;load&rdquo; the image. It doesn&rsquo;t really load it, but instead the src is swapped and defers to the browser to do it&rsquo;s thing. In the partials that are created later on, we initially have the <code>img.src</code> set to a blurry placeholder, so we need to swap in the real image. There is a field added to the <code>source</code> element (<code>data-srcset</code>) and one to the <code>img</code> element (<code>data-src</code>).</p><p>So the function is basically moving</p><ul><li><code>source.data-srcset</code> -> <code>source.srcset</code></li><li><code>img.data-src</code> -> <code>img.src</code></li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kd>function</span> <span class=nx>loadImg</span><span class=p>(</span><span class=nx>img</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>source</span> <span class=o>=</span> <span class=nx>img</span><span class=p>.</span><span class=nx>parentElement</span><span class=p>.</span><span class=nx>querySelector</span><span class=p>(</span><span class=s1>&#39;source&#39;</span><span class=p>);</span>        
+</span></span><span class=line><span class=cl>    <span class=nx>source</span><span class=p>.</span><span class=nx>srcset</span> <span class=o>=</span> <span class=nx>source</span><span class=p>.</span><span class=nx>getAttribute</span><span class=p>(</span><span class=s1>&#39;data-srcset&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nx>img</span><span class=p>.</span><span class=nx>src</span> <span class=o>=</span> <span class=nx>img</span><span class=p>.</span><span class=nx>getAttribute</span><span class=p>(</span><span class=s1>&#39;data-src&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>Next we need to check if the browser has native lazy loading support. As of writing, <a href=https://caniuse.com/loading-lazy-attr>~74% browsers support it.</a>. The main browser lacking the support is Safari, but it&rsquo;s apparently close to being done.</p><p>With native lazy loading, we can just instantly defer all the images to the browser itself as it will handle the lazy loading of the images for us. We just need to iterate through the images and swap the srcs to the actual images.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=s1>&#39;loading&#39;</span> <span class=k>in</span> <span class=nx>HTMLImageElement</span><span class=p>.</span><span class=nx>prototype</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>lazyImages</span><span class=p>.</span><span class=nx>forEach</span><span class=p>(</span><span class=nx>img</span> <span class=p>=&gt;</span> <span class=p>{</span> <span class=nx>loadImg</span><span class=p>(</span><span class=nx>img</span><span class=p>);</span>  <span class=p>})</span>
+</span></span><span class=line><span class=cl><span class=p>}</span> 
+</span></span></code></pre></div><p>For the browsers that don&rsquo;t support native lazy loading, anything that is set in the <code>src</code> and <code>srcset</code> are instantly loaded. So what we want is to wait until the image is in the viewport before it loads the full sized image.</p><p>To achieve this we use the <code>IntersectionObserver</code>. When the image has even a pixel on the screen, <code>isIntersecting</code> is true and we swap the <code>src</code>. While it&rsquo;s deferred to the browser like in native lazy loading, it is actually fully loaded.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>imgObserver</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>IntersectionObserver</span><span class=p>((</span><span class=nx>entries</span><span class=p>,</span> <span class=nx>self</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>entries</span><span class=p>.</span><span class=nx>forEach</span><span class=p>(</span><span class=nx>entry</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=p>(</span><span class=nx>entry</span><span class=p>.</span><span class=nx>isIntersecting</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=nx>self</span><span class=p>.</span><span class=nx>unobserve</span><span class=p>(</span><span class=nx>entry</span><span class=p>.</span><span class=nx>target</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>                <span class=nx>loadImg</span><span class=p>(</span><span class=nx>entry</span><span class=p>.</span><span class=nx>target</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=p>});</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl>    <span class=nx>lazyImages</span><span class=p>.</span><span class=nx>forEach</span><span class=p>(</span><span class=nx>img</span> <span class=p>=&gt;</span> <span class=p>{</span> <span class=nx>imgObserver</span><span class=p>.</span><span class=nx>observe</span><span class=p>(</span><span class=nx>img</span><span class=p>);</span>  <span class=p>})</span>
+</span></span><span class=line><span class=cl><span class=p>}</span> 
+</span></span></code></pre></div><p>And here is the script in total</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=c1>//Lazy-load
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>function</span> <span class=nx>loadImg</span><span class=p>(</span><span class=nx>img</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>source</span> <span class=o>=</span> <span class=nx>img</span><span class=p>.</span><span class=nx>parentElement</span><span class=p>.</span><span class=nx>querySelector</span><span class=p>(</span><span class=s1>&#39;source&#39;</span><span class=p>);</span>        
+</span></span><span class=line><span class=cl>    <span class=nx>source</span><span class=p>.</span><span class=nx>srcset</span> <span class=o>=</span> <span class=nx>source</span><span class=p>.</span><span class=nx>getAttribute</span><span class=p>(</span><span class=s1>&#39;data-srcset&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nx>img</span><span class=p>.</span><span class=nx>src</span> <span class=o>=</span> <span class=nx>img</span><span class=p>.</span><span class=nx>getAttribute</span><span class=p>(</span><span class=s1>&#39;data-src&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>lazyImages</span> <span class=o>=</span> <span class=nb>document</span><span class=p>.</span><span class=nx>querySelectorAll</span><span class=p>(</span><span class=s1>&#39;img[loading=&#34;lazy&#34;]&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=s1>&#39;loading&#39;</span> <span class=k>in</span> <span class=nx>HTMLImageElement</span><span class=p>.</span><span class=nx>prototype</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>lazyImages</span><span class=p>.</span><span class=nx>forEach</span><span class=p>(</span><span class=nx>img</span> <span class=p>=&gt;</span> <span class=p>{</span> <span class=nx>loadImg</span><span class=p>(</span><span class=nx>img</span><span class=p>);</span>  <span class=p>})</span>
+</span></span><span class=line><span class=cl><span class=p>}</span> 
+</span></span><span class=line><span class=cl><span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>imgObserver</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>IntersectionObserver</span><span class=p>((</span><span class=nx>entries</span><span class=p>,</span> <span class=nx>self</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>entries</span><span class=p>.</span><span class=nx>forEach</span><span class=p>(</span><span class=nx>entry</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=p>(</span><span class=nx>entry</span><span class=p>.</span><span class=nx>isIntersecting</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=nx>self</span><span class=p>.</span><span class=nx>unobserve</span><span class=p>(</span><span class=nx>entry</span><span class=p>.</span><span class=nx>target</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>                <span class=nx>loadImg</span><span class=p>(</span><span class=nx>entry</span><span class=p>.</span><span class=nx>target</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=p>});</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl>    <span class=nx>lazyImages</span><span class=p>.</span><span class=nx>forEach</span><span class=p>(</span><span class=nx>img</span> <span class=p>=&gt;</span> <span class=p>{</span> <span class=nx>imgObserver</span><span class=p>.</span><span class=nx>observe</span><span class=p>(</span><span class=nx>img</span><span class=p>);</span>  <span class=p>})</span>
+</span></span><span class=line><span class=cl><span class=p>}</span> 
+</span></span></code></pre></div></section><section><h2 id=making-webp-and-placeholder-images>Making WebP and Placeholder Images
+<a class=heading-link href=#making-webp-and-placeholder-images><i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i></a></h2><p>I downloaded the latest <a href=https://developers.google.com/speed/webp/docs/precompiled>precompiled cwebp</a> and placed in my <code>./bin</code> folder of my repo (obviously feel free to place somewhere else).</p><p>I then made a script that will search all my folders for <code>png</code> files, ignoring favicons and placeholders.</p><p>It will then check if an existing image exists and if not create one for the following</p><ul><li>Full-sized <code>webp</code> version of the png</li><li>Placeholder <code>png</code> (width set to 16px - height auto)</li><li>Placeholder <code>webp</code> (width set to 16px - height auto)</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl><span class=cp>#!/usr/bin/env bash
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=nv>var</span><span class=o>=</span><span class=sb>`</span>find . -not -path <span class=s2>&#34;./public/*&#34;</span> -not -name <span class=s2>&#34;apple-touch-icon*&#34;</span> -not -name <span class=s2>&#34;favicon*&#34;</span> -not -name <span class=s2>&#34;*-placeholder*&#34;</span> -name <span class=s2>&#34;*.png&#34;</span> <span class=p>|</span> sed <span class=s1>&#39;s/.png//&#39;</span><span class=sb>`</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>for</span> fileName in <span class=nv>$var</span>
+</span></span><span class=line><span class=cl><span class=k>do</span> 
+</span></span><span class=line><span class=cl>    <span class=nb>echo</span> <span class=s2>&#34;</span><span class=nv>$fileName</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=o>[</span> ! -f <span class=s2>&#34;</span><span class=nv>$fileName</span><span class=s2>&#34;</span>.webp <span class=o>]</span><span class=p>;</span> <span class=k>then</span> 
+</span></span><span class=line><span class=cl>        ./bin/cwebp -preset picture -q <span class=m>100</span> -m <span class=m>6</span> -lossless -z <span class=m>9</span> <span class=s2>&#34;</span><span class=nv>$fileName</span><span class=s2>&#34;</span>.png -o <span class=s2>&#34;</span><span class=nv>$fileName</span><span class=s2>&#34;</span>.webp //digital
+</span></span><span class=line><span class=cl>        <span class=c1>#./bin/cwebp -preset photo -q 100 -m 6 &#34;$fileName&#34;.png -o &#34;$fileName&#34;.webp //analog</span>
+</span></span><span class=line><span class=cl>    <span class=k>fi</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=o>[</span> ! -f <span class=s2>&#34;</span><span class=nv>$fileName</span><span class=s2>&#34;</span>-placeholder.png <span class=o>]</span><span class=p>;</span> <span class=k>then</span> 
+</span></span><span class=line><span class=cl>        convert <span class=s2>&#34;</span><span class=nv>$fileName</span><span class=s2>&#34;</span>.png -resize <span class=m>16</span> -quality <span class=m>00</span> png8:<span class=s2>&#34;</span><span class=nv>$fileName</span><span class=s2>&#34;</span>-placeholder.png
+</span></span><span class=line><span class=cl>    <span class=k>fi</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=o>[</span> ! -f <span class=s2>&#34;</span><span class=nv>$fileName</span><span class=s2>&#34;</span>-placeholder.webp <span class=o>]</span><span class=p>;</span> <span class=k>then</span> 
+</span></span><span class=line><span class=cl>        ./bin/cwebp <span class=s2>&#34;</span><span class=nv>$fileName</span><span class=s2>&#34;</span>-placeholder.png -o <span class=s2>&#34;</span><span class=nv>$fileName</span><span class=s2>&#34;</span>-placeholder.webp
+</span></span><span class=line><span class=cl>    <span class=k>fi</span>
+</span></span><span class=line><span class=cl><span class=k>done</span>
+</span></span></code></pre></div><p>I did a lot of testing and went with lossless compression on the pngs. It actually compressed the best and looks great. I am guessing it&rsquo;s due to most of my images being digital screencaps. 🤷</p></section><section><h2 id=hugo-partials>HUGO Partials
+<a class=heading-link href=#hugo-partials><i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i></a></h2><p>Now that we got the images, its time to create the two partials that we will need. A normal partial and a special partial that Hugo hooks into.</p><h3 id=render-imagehtml>render-image.html
+<a class=heading-link href=#render-imagehtml><i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i></a></h3><p>We&rsquo;ll start with the one that Hugo hooks into as it&rsquo;s fairly simple. There are 3 of these that hugo uses (<a href=https://gohugo.io/getting-started/configuration-markup#markdown-render-hooks>read more</a>).</p><p>This allows the pretty great markdown image short code in Hugo to use the partial to render.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-md data-lang=md><span class=line><span class=cl>![<span class=nt>Some Image Caption</span>](<span class=na>image.png</span>)
+</span></span></code></pre></div><p>So create the file <code>layouts/_default/_markup/render-image.html</code></p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl>//layouts/_default/_markup/render-image.html
+</span></span><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>figure</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>    {{ $image := .Page.Resources.GetMatch (printf &#34;%s&#34; (.Destination | safeURL)) }}
+</span></span><span class=line><span class=cl>    {{ partial &#34;image&#34; (dict &#34;path&#34; .Destination &#34;alt&#34; .Text &#34;width&#34; $image.Width &#34;height&#34; $image.Height)}}
+</span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>figcaption</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=p>&lt;</span><span class=nt>p</span> <span class=na>class</span><span class=o>=</span><span class=s>&#34;caption&#34;</span><span class=p>&gt;</span>{{ .Text }}<span class=p>&lt;/</span><span class=nt>p</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;/</span><span class=nt>figcaption</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl><span class=p>&lt;/</span><span class=nt>figure</span><span class=p>&gt;</span>
+</span></span></code></pre></div><p>The <code>figure</code> stuff can be ignored, the only things that really matter are</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl>{{ $image := .Page.Resources.GetMatch (printf &#34;%s&#34; (.Destination | safeURL)) }}
+</span></span><span class=line><span class=cl>{{ partial &#34;image&#34; (dict &#34;path&#34; .Destination &#34;alt&#34; .Text &#34;width&#34; $image.Width &#34;height&#34; $image.Height)}}
+</span></span></code></pre></div><p>This will grab the image stats and pass them to the <code>image</code> partial we&rsquo;re going to create next. To breakdown the options a bit</p><ul><li>&ldquo;path&rdquo; .Destination<ul><li>Where the Image png is</li></ul></li><li>&ldquo;alt&rdquo; .Text<ul><li>Alt text to be placed on the image</li></ul></li><li>&ldquo;width&rdquo; $image.Width<ul><li>Image Width</li></ul></li><li>&ldquo;height&rdquo; $image.Height<ul><li>Image Height</li></ul></li></ul><h3 id=imagehtml>image.html
+<a class=heading-link href=#imagehtml><i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i></a></h3><p>Now for the main partial file. Create a <code>./layouts/partials/image.html</code>.</p><p>As talked about before, one of the things being passed in is <code>path</code>. We need to use this to construct all the other image paths for the images we created (webp, placeholders) in the script.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl>{{ $webpPath:= (replace .path &#34;.png&#34; &#34;.webp&#34;)}} 
+</span></span><span class=line><span class=cl>{{ $webpPlaceholderPath:= (replace .path &#34;.png&#34; &#34;-placeholder.webp&#34;)}}
+</span></span><span class=line><span class=cl>{{ $pngPlaceholderPath:= (replace .path &#34;.png&#34; &#34;-placeholder.png&#34;)}} 
+</span></span></code></pre></div><p>We create a <code>source</code> element and set the normal <code>srcset</code> to the placeholder image, and a custom <code>data-srcset</code> that points to the full-size webp.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl>  <span class=p>&lt;</span><span class=nt>source</span>
+</span></span><span class=line><span class=cl>    <span class=na>srcset</span><span class=o>=</span><span class=s>&#34;{{ $webpPlaceholderPath | safeURL }}&#34;</span> 
+</span></span><span class=line><span class=cl>    <span class=na>data-srcset</span><span class=o>=</span><span class=s>&#34;{{ $webpPath | safeURL }}&#34;</span> 
+</span></span><span class=line><span class=cl>    <span class=na>type</span><span class=o>=</span><span class=s>&#34;image/webp&#34;</span> <span class=p>&gt;</span>
+</span></span></code></pre></div><p>We then create an <code>img</code> element and set the normal <code>src</code> to the placeholder image, and a custom <code>data-src</code> that points to the full-size png. Also set some other good practice attributes and add <code>loading="lazy"</code>.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>img</span> 
+</span></span><span class=line><span class=cl>    <span class=na>src</span><span class=o>=</span><span class=s>&#34;{{ $pngPlaceholderPath | safeURL }}&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=na>data-src</span><span class=o>=</span><span class=s>&#34;{{ .path | safeURL }}&#34;</span> 
+</span></span><span class=line><span class=cl>    <span class=na>type</span><span class=o>=</span><span class=s>&#34;image/png&#34;</span> 
+</span></span><span class=line><span class=cl>    <span class=na>loading</span><span class=o>=</span><span class=s>&#34;lazy&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=na>alt</span><span class=o>=</span><span class=s>&#34;{{ .alt }}&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=na>width</span><span class=o>=</span><span class=s>&#34;{{ .width }}&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=na>height</span><span class=o>=</span><span class=s>&#34;{{ .height }}&#34;</span> <span class=p>&gt;</span>
+</span></span></code></pre></div><p>And here is the partial in full.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>picture</span> <span class=na>class</span><span class=o>=</span><span class=s>&#34;{{ .class }}&#34;</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>  {{ $webpPath:= (replace .path &#34;.png&#34; &#34;.webp&#34;)}} 
+</span></span><span class=line><span class=cl>  {{ $webpPlaceholderPath:= (replace .path &#34;.png&#34; &#34;-placeholder.webp&#34;)}}
+</span></span><span class=line><span class=cl>  <span class=p>&lt;</span><span class=nt>source</span>
+</span></span><span class=line><span class=cl>    <span class=na>srcset</span><span class=o>=</span><span class=s>&#34;{{ $webpPlaceholderPath | safeURL }}&#34;</span> 
+</span></span><span class=line><span class=cl>    <span class=na>data-srcset</span><span class=o>=</span><span class=s>&#34;{{ $webpPath | safeURL }}&#34;</span> 
+</span></span><span class=line><span class=cl>    <span class=na>type</span><span class=o>=</span><span class=s>&#34;image/webp&#34;</span> <span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>  {{ $pngPlaceholderPath:= (replace .path &#34;.png&#34; &#34;-placeholder.png&#34;)}} 
+</span></span><span class=line><span class=cl>  <span class=p>&lt;</span><span class=nt>img</span> 
+</span></span><span class=line><span class=cl>    <span class=na>src</span><span class=o>=</span><span class=s>&#34;{{ $pngPlaceholderPath | safeURL }}&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=na>data-src</span><span class=o>=</span><span class=s>&#34;{{ .path | safeURL }}&#34;</span> 
+</span></span><span class=line><span class=cl>    <span class=na>type</span><span class=o>=</span><span class=s>&#34;image/png&#34;</span> 
+</span></span><span class=line><span class=cl>    <span class=na>alt</span><span class=o>=</span><span class=s>&#34;{{ .alt }}&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=na>loading</span><span class=o>=</span><span class=s>&#34;lazy&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=na>width</span><span class=o>=</span><span class=s>&#34;{{ .width }}&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=na>height</span><span class=o>=</span><span class=s>&#34;{{ .height }}&#34;</span> <span class=p>&gt;</span>
+</span></span><span class=line><span class=cl><span class=p>&lt;/</span><span class=nt>picture</span><span class=p>&gt;</span>
+</span></span></code></pre></div><p>Now this partial can be used around the site similar to how the <code>render-image.html</code> uses it. Here is a snippet of how I use it for the Avatar on the homepage.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl> {{ partial &#34;image&#34; (dict &#34;path&#34; &#34;images/avatar.png&#34; &#34;class&#34; &#34;avatar&#34; &#34;alt&#34; &#34;avatar&#34; &#34;width&#34; &#34;200&#34; &#34;height&#34; &#34;200&#34;)}}
+</span></span></code></pre></div><p>Pretty easy.</p></section><section><h2 id=responsive-images>Responsive Images
+<a class=heading-link href=#responsive-images><i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i></a></h2><p>So. I wanted to do responsive images, where it serves smaller images depending on the screen size, but ran into some issues.</p><p>I have a working modified partial that handles it great. But no matter what tool I used to resize the images, the smaller (in dimension) images were either larger (in file size) than the original or had terrible artifacts.</p><p>Here is a breakdown and order of stuff I tried. For stats on these I will compare the original ~1000px width webp image (~25kb) to a target image with width of 640px.</p><ol><li>Webp resize caused terrible banding on solid colors.</li><li>Added Dithering prior to Webp resize. Was still somewhat noticeable plus the file size increased (~40kb)</li><li>Resized PNG using <a href=https://imagemagick.org/index.php>ImageMagick</a> and then converted to Webp. Artifacts gone but Webp was large (~120kb)</li><li>Resized PNG using <a href=https://imagemagick.org/index.php>ImageMagick</a>, compressed png with <a href=https://pngquant.org/>pngquant</a> and then converted to Webp. Better, but still large (~60kb)</li><li>Resized PNG using <a href=https://imagemagick.org/index.php>ImageMagick</a>, compressed png with <a href=http://optipng.sourceforge.net/>optipng</a> and then converted to Webp. Better, but still large (~70kb)</li></ol><p>For each step, I tried a variety of different <code>webp</code> settings to reduce the size. I also tried a bunch of settings for <code>ImageMagick</code> and the compressors but just couldn&rsquo;t get it to work.</p><p>So while I would have loved to have responsive images, I was spending too much time to get it to work. At the end of the day, I think a ~25kb for a full sized image is actually really good, so I am not going to be spending more time on it for now.</p></section><section><h2 id=summary>Summary
+<a class=heading-link href=#summary><i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i></a></h2><p>Getting the base webp structure and lazy loading working was pretty simple to do and were fun topics to read up on. These are the kind of things I love to read up on.</p><p>I didn&rsquo;t know about the <code>Picture</code> tag before doing this and how browsers try to load webp images and have basically a fail-over if it doesn&rsquo;t support webp.</p><p>Reading up on the native and all the different js lazy-loading techniques of elements was very interesting as well.</p><p>A next step for future me to look into would maybe adding <code>AVIF</code> support on top of this logic and maybe cropping the width of images that are too large at max size. But that&rsquo;s lower on my list right now.</p></section></div><footer><section class=see-also><h3 id=see-also-in-hugo>See also in hugo
+<a class=heading-link href=#see-also-in-hugo><i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i></a></h3><nav><ul><li><a href=/posts/2021/04/font/>Removing Google Fonts & Other 3rd Parties</a></li><li><a href=/posts/2021/04/material/>Materialize</a></li><li><a href=/posts/2021/04/fontawesome/>Removing FontAwesome</a></li><li><a href=/posts/2021/04/cssclean/>Minimizing CSS in Hugo</a></li><li><a href=/posts/2021/04/env-setup/>Environment & Hosting Setup</a></li></ul></nav><h3 id=see-also-in-optimizations>See also in optimizations
+<a class=heading-link href=#see-also-in-optimizations><i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i></a></h3><nav><ul><li><a href=/posts/2021/04/font/>Removing Google Fonts & Other 3rd Parties</a></li><li><a href=/posts/2021/04/fontawesome/>Removing FontAwesome</a></li><li><a href=/posts/2021/04/cssclean/>Minimizing CSS in Hugo</a></li></ul></nav></section><div id=utterance-container src=https://utteranc.es/client.js repo=TChilderhose/tchilderhose.github.io issue-term=pathname label=comment crossorigin=anonymous></div></footer></article></section></div><footer class=footer><section class=container>©
 2021 -
 2022
 Tyler Childerhose
 ·
-Powered by <a href=https://gohugo.io/>Hugo</a>.
-</section>
-</footer>
-</main>
-<script defer src=/js/site.min.abadf6950b7dff946d074965e3f503e6af98c664f13fb6b2ab43277b841c70e6.js integrity="sha256-q632lQt9/5RtB0ll4/UD5q+YxmTxP7ayq0Mne4QccOY=" crossorigin=anonymous></script>
-</body>
-</html>
+Powered by <a href=https://gohugo.io/>Hugo</a>.</section></footer></main><script defer src=/js/site.min.4e9f0140fabb2edb7a4139c2b14598a7ae325736775c3d40c1b1d910a5a6d272.js integrity="sha256-Tp8BQPq7Ltt6QTnCsUWYp64yVzZ3XD1AwbHZEKWm0nI=" crossorigin=anonymous></script></body></html>

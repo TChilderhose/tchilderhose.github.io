@@ -1,308 +1,91 @@
-<!doctype html><html lang=en data-theme=dark>
-<head>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta http-equiv=content-language content="en">
-<meta name=color-scheme content="light dark">
-<meta http-equiv=content-security-policy content="upgrade-insecure-requests; block-all-mixed-content; default-src 'self'; child-src 'self'; font-src 'self'; form-action 'self'; frame-src 'self' https://utteranc.es; img-src 'self'; object-src 'none'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://utteranc.es; prefetch-src 'self'; connect-src 'self';">
-<meta name=author content="Tyler Childerhose">
-<meta name=description content="Next target of optimizing on my Hugo site is to minify or remove FontAwesome. After a bit of investigating I decided to just remove it all and handle the SVGs that I will be using myself.">
-<meta name=keywords content="blog,developer,personal">
-<meta name=twitter:card content="summary">
-<meta name=twitter:title content="Removing FontAwesome">
-<meta name=twitter:description content="Next target of optimizing on my Hugo site is to minify or remove FontAwesome. After a bit of investigating I decided to just remove it all and handle the SVGs that I will be using myself.">
-<meta property="og:title" content="Removing FontAwesome">
-<meta property="og:description" content="Next target of optimizing on my Hugo site is to minify or remove FontAwesome. After a bit of investigating I decided to just remove it all and handle the SVGs that I will be using myself.">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://tchilderhose.ca/posts/2021/04/fontawesome/"><meta property="article:section" content="posts">
-<meta property="article:published_time" content="2021-04-14T00:00:00+00:00">
-<meta property="article:modified_time" content="2021-04-14T00:00:00+00:00">
-<meta property="og:see_also" content="https://tchilderhose.ca/posts/2021/04/font/"><meta property="og:see_also" content="https://tchilderhose.ca/posts/2021/04/webp/"><meta property="og:see_also" content="https://tchilderhose.ca/posts/2021/04/material/"><meta property="og:see_also" content="https://tchilderhose.ca/posts/2021/04/cssclean/"><meta property="og:see_also" content="https://tchilderhose.ca/posts/2021/04/env-setup/">
-<meta property="og:see_also" content="https://tchilderhose.ca/posts/2021/04/font/"><meta property="og:see_also" content="https://tchilderhose.ca/posts/2021/04/webp/"><meta property="og:see_also" content="https://tchilderhose.ca/posts/2021/04/cssclean/">
-<title>
-Removing FontAwesome · TChilderhose
-</title>
-<link rel=canonical href=https://tchilderhose.ca/posts/2021/04/fontawesome/>
-<link rel=stylesheet href=/css/site.min.29f52f0785a3d9356443584321059582c1f8a2abbf16869eb50599085a6df96b.css integrity="sha256-KfUvB4Wj2TVkQ1hDIQWVgsH4oqu/FoaetQWZCFpt+Ws=" crossorigin=anonymous>
-<link rel=icon type=image/png href=/images/favicon-32x32.png sizes=32x32>
-<link rel=icon type=image/png href=/images/favicon-16x16.png sizes=16x16>
-<link rel=apple-touch-icon href=/images/apple-touch-icon.png>
-<link rel=apple-touch-icon href=/images/apple-touch-icon.png sizes=180x180>
-<meta name=generator content="Hugo 0.92.0">
-<script>document.addEventListener("DOMContentLoaded",function(){document.querySelector(".preload-transitions").classList.remove("preload-transitions")})</script>
-</head>
-<body class=preload-transitions>
-<aside class=float-container>
-<ul>
-<li>
-<a id=to-top>
-<i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M8 256C8 119 119 8 256 8s248 111 248 248-111 248-248 248S8 393 8 256zm292 116V256h70.9c10.7.0 16.1-13 8.5-20.5L264.5 121.2c-4.7-4.7-12.2-4.7-16.9.0l-115 114.3c-7.6 7.6-2.2 20.5 8.5 20.5H212v116c0 6.6 5.4 12 12 12h64c6.6.0 12-5.4 12-12z"/></svg></i>
-</a>
-</li>
-<li>
-<a id=dark-mode-toggle>
-<i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M8 256c0 136.966 111.033 248 248 248s248-111.034 248-248S392.966 8 256 8 8 119.033 8 256zm248 184V72c101.705.0 184 82.311 184 184 0 101.705-82.311 184-184 184z"/></svg></i>
-</a>
-</li>
-</ul>
-</aside>
-<main class=wrapper>
-<nav class=navigation id=navbar>
-<section class=container>
-<a class=navigation-title href=/>
-TChilderhose
-</a>
-<ul class=navigation-list>
-<li class=navigation-item>
-<a class=navigation-link href=/posts/>Blog</a>
-</li>
-<li class=navigation-item>
-<a class=navigation-link href=/resume/>Resume</a>
-</li>
-</ul>
-</section>
-</nav>
-<div class=content>
-<section class=container>
-<aside class=toc>
-<h2 class=toc-title>Table of Contents</h2>
-<nav id=TableOfContents>
-<ul>
-<li><a href=#remove-fontawesome>Remove FontAwesome</a></li>
-<li><a href=#fetch-the-needed-svgs>Fetch the Needed SVGs</a></li>
-<li><a href=#create-the-partial>Create the Partial</a></li>
-<li><a href=#tweaks>Tweaks</a></li>
-</ul>
-</nav>
-</aside>
-<article class=post>
-<header>
-<div class=post-title>
-<h1 class=title>
-<a class=title-link href=https://tchilderhose.ca/posts/2021/04/fontawesome/>
-Removing FontAwesome
-</a>
-</h1>
-</div>
-<div class=post-meta>
-<span class=posted-on>
-<i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentcolor" d="M0 464c0 26.5 21.5 48 48 48h352c26.5.0 48-21.5 48-48V192H0v272zm320-196c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6.0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6.0-12-5.4-12-12v-40zM192 268c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6.0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6.0-12-5.4-12-12v-40zM64 268c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6.0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6.0-12-5.4-12-12v-40zM4e2 64h-48V16c0-8.8-7.2-16-16-16h-32c-8.8.0-16 7.2-16 16v48H160V16c0-8.8-7.2-16-16-16h-32c-8.8.0-16 7.2-16 16v48H48C21.5 64 0 85.5.0 112v48h448v-48c0-26.5-21.5-48-48-48z"/></svg></i>
-<time datetime=2021-04-14T00:00:00Z>2021-04-14</time>
-</span>
+<!doctype html><html lang=en data-theme=dark><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=content-language content="en"><meta name=color-scheme content="light dark"><meta http-equiv=content-security-policy content="upgrade-insecure-requests; block-all-mixed-content; default-src 'self'; child-src 'self'; font-src 'self'; form-action 'self'; frame-src 'self' https://utteranc.es; img-src 'self'; object-src 'none'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://utteranc.es; prefetch-src 'self'; connect-src 'self';"><meta name=author content="Tyler Childerhose"><meta name=description content="Next target of optimizing on my Hugo site is to minify or remove FontAwesome. After a bit of investigating I decided to just remove it all and handle the SVGs that I will be using myself."><meta name=keywords content="blog,developer,personal"><meta name=twitter:card content="summary"><meta name=twitter:title content="Removing FontAwesome"><meta name=twitter:description content="Next target of optimizing on my Hugo site is to minify or remove FontAwesome. After a bit of investigating I decided to just remove it all and handle the SVGs that I will be using myself."><meta property="og:title" content="Removing FontAwesome"><meta property="og:description" content="Next target of optimizing on my Hugo site is to minify or remove FontAwesome. After a bit of investigating I decided to just remove it all and handle the SVGs that I will be using myself."><meta property="og:type" content="article"><meta property="og:url" content="https://tchilderhose.ca/posts/2021/04/fontawesome/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2021-04-14T00:00:00+00:00"><meta property="article:modified_time" content="2021-04-14T00:00:00+00:00"><meta property="og:see_also" content="https://tchilderhose.ca/posts/2021/04/font/"><meta property="og:see_also" content="https://tchilderhose.ca/posts/2021/04/webp/"><meta property="og:see_also" content="https://tchilderhose.ca/posts/2021/04/material/"><meta property="og:see_also" content="https://tchilderhose.ca/posts/2021/04/cssclean/"><meta property="og:see_also" content="https://tchilderhose.ca/posts/2021/04/env-setup/"><meta property="og:see_also" content="https://tchilderhose.ca/posts/2021/04/font/"><meta property="og:see_also" content="https://tchilderhose.ca/posts/2021/04/webp/"><meta property="og:see_also" content="https://tchilderhose.ca/posts/2021/04/cssclean/"><title>Removing FontAwesome · TChilderhose</title><link rel=canonical href=https://tchilderhose.ca/posts/2021/04/fontawesome/><link rel=stylesheet href=/css/site.min.29f52f0785a3d9356443584321059582c1f8a2abbf16869eb50599085a6df96b.css integrity="sha256-KfUvB4Wj2TVkQ1hDIQWVgsH4oqu/FoaetQWZCFpt+Ws=" crossorigin=anonymous><link rel=icon type=image/png href=/images/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/images/favicon-16x16.png sizes=16x16><link rel=apple-touch-icon href=/images/apple-touch-icon.png><link rel=apple-touch-icon href=/images/apple-touch-icon.png sizes=180x180><meta name=generator content="Hugo 0.96.0"><script>document.addEventListener("DOMContentLoaded",function(){document.querySelector(".preload-transitions").classList.remove("preload-transitions")})</script></head><body class=preload-transitions><aside class=float-container><ul><li><a id=to-top><i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M8 256C8 119 119 8 256 8s248 111 248 248-111 248-248 248S8 393 8 256zm292 116V256h70.9c10.7.0 16.1-13 8.5-20.5L264.5 121.2c-4.7-4.7-12.2-4.7-16.9.0l-115 114.3c-7.6 7.6-2.2 20.5 8.5 20.5H212v116c0 6.6 5.4 12 12 12h64c6.6.0 12-5.4 12-12z"/></svg></i></a></li><li><a id=dark-mode-toggle><i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M8 256c0 136.966 111.033 248 248 248s248-111.034 248-248S392.966 8 256 8 8 119.033 8 256zm248 184V72c101.705.0 184 82.311 184 184 0 101.705-82.311 184-184 184z"/></svg></i></a></li></ul></aside><main class=wrapper><nav class=navigation id=navbar><section class=container><a class=navigation-title href=/>TChilderhose</a><ul class=navigation-list><li class=navigation-item><a class=navigation-link href=/posts/>Blog</a></li><li class=navigation-item><a class=navigation-link href=/resume/>Resume</a></li></ul></section></nav><div class=content><section class=container><aside class=toc><h2 class=toc-title>Table of Contents</h2><nav id=TableOfContents><ul><li><a href=#remove-fontawesome>Remove FontAwesome</a></li><li><a href=#fetch-the-needed-svgs>Fetch the Needed SVGs</a></li><li><a href=#create-the-partial>Create the Partial</a></li><li><a href=#tweaks>Tweaks</a></li></ul></nav></aside><article class=post><header><div class=post-title><h1 class=title><a class=title-link href=https://tchilderhose.ca/posts/2021/04/fontawesome/>Removing FontAwesome</a></h1></div><div class=post-meta><span class=posted-on><i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentcolor" d="M0 464c0 26.5 21.5 48 48 48h352c26.5.0 48-21.5 48-48V192H0v272zm320-196c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6.0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6.0-12-5.4-12-12v-40zM192 268c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6.0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6.0-12-5.4-12-12v-40zM64 268c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6.0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6.0-12-5.4-12-12v-40zM4e2 64h-48V16c0-8.8-7.2-16-16-16h-32c-8.8.0-16 7.2-16 16v48H160V16c0-8.8-7.2-16-16-16h-32c-8.8.0-16 7.2-16 16v48H48C21.5 64 0 85.5.0 112v48h448v-48c0-26.5-21.5-48-48-48z"/></svg></i><time datetime=2021-04-14T00:00:00Z>2021-04-14</time></span>
 &nbsp;
-<span class=reading-time>
-<i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M256 8C119 8 8 119 8 256S119 504 256 504 504 393 504 256 393 8 256 8zm92.49 313h0l-20 25A16 16 0 01306 348.5h0l-67-49.72a40 40 0 01-15-31.23V112a16 16 0 0116-16h32a16 16 0 0116 16V256l58 42.5A16 16 0 01348.49 321z"/></svg></i>3-minute read</span>
+<span class=reading-time><i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M256 8C119 8 8 119 8 256S119 504 256 504 504 393 504 256 393 8 256 8zm92.49 313h0l-20 25A16 16 0 01306 348.5h0l-67-49.72a40 40 0 01-15-31.23V112a16 16 0 0116-16h32a16 16 0 0116 16V256l58 42.5A16 16 0 01348.49 321z"/></svg></i>3-minute read</span>
 &nbsp;
-<span class=tags>
-<i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M0 252.118V48C0 21.49 21.49.0 48 0h204.118a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137.0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882.0L14.059 286.059A48 48 0 010 252.118zM112 64c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg></i>
-<a class=tag-link href=/tags/hugo/>hugo</a>
+<span class=tags><i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M0 252.118V48C0 21.49 21.49.0 48 0h204.118a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137.0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882.0L14.059 286.059A48 48 0 010 252.118zM112 64c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg></i><a class=tag-link href=/tags/hugo/>hugo</a>
 <span class=separator>•</span>
 <a class=tag-link href=/tags/optimizations/>optimizations</a>
 <span class=separator>•</span>
 <a class=tag-link href=/tags/fontawesome/>FontAwesome</a>
 <span class=separator>•</span>
-<a class=tag-link href=/tags/svg/>svg</a></span>
-</div>
-</header>
-<div>
-<p>Next target of optimizing on my Hugo site is to minify or remove FontAwesome. After a bit of investigating I decided to just remove it all and handle the SVGs that I will be using myself.</p>
-<p>Which would cross another thing off my original list</p>
-<ul>
-<li><del>Removing unused CSS</del></li>
-<li><del><strong>Minifying/Removing FontAwesome</strong></del></li>
-<li>Minimizing requests to 3rd parties (fonts, metrics, etc)</li>
-<li>Remove Google Fonts while still looking appealing</li>
-<li>Minimizing use of JavaScript</li>
-<li>Converting Images to WebP or some other optimized formats</li>
-</ul>
-<section>
-<h2 id=remove-fontawesome>
-Remove FontAwesome
-<a class=heading-link href=#remove-fontawesome>
-<i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i>
-</a>
-</h2>
-<p>I removed any mention of the FontAwesome font and/or stylesheet. Normally it&rsquo;s something like</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=p>&lt;</span><span class=nt>link</span> <span class=na>rel</span><span class=o>=</span><span class=s>&#34;stylesheet&#34;</span> <span class=na>href</span><span class=o>=</span><span class=s>&#34;https://cdnjs.cloudflare.com/ajax/libs/font-awesome/XXX/css/font-awesome.min.css&#34;</span><span class=p>&gt;</span>
-</code></pre></div><p>The theme I was using also had a local version called <a href=https://github.com/ForkAwesome/Fork-Awesome>ForkAwesome</a> installed. Just needed to remove the files from the static folder and remove the links to it.</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=p>&lt;</span><span class=nt>link</span> <span class=na>rel</span><span class=o>=</span><span class=s>&#34;preload&#34;</span> <span class=na>href</span><span class=o>=</span><span class=s>&#34;/fonts/forkawesome-webfont.woff2?v=1.1.7&#34;</span> <span class=na>as</span><span class=o>=</span><span class=s>&#34;font&#34;</span> <span class=na>type</span><span class=o>=</span><span class=s>&#34;font/woff2&#34;</span> <span class=na>crossorigin</span><span class=p>&gt;</span>
-</code></pre></div><p>Don&rsquo;t remove any of the class tags just yet (<code>fa</code>, <code>fa-XXXX</code>, etc).</p>
-</section>
-<section>
-<h2 id=fetch-the-needed-svgs>
-Fetch the Needed SVGs
-<a class=heading-link href=#fetch-the-needed-svgs>
-<i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i>
-</a>
-</h2>
-<p>Next I wrote a script that will</p>
-<ul>
-<li>Go through my html, js and config.toml files looking for <code>fa-</code>.</li>
-<li>Check which SVGs are missing</li>
-<li>Download the SVG from the <a href=https://github.com/FortAwesome/Font-Awesome>FontAwesome GitHub Repo</a> into the <code>./fontawesome</code> folder</li>
-</ul>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=cp>#!/usr/bin/env bash
-</span><span class=cp></span><span class=nv>regex</span><span class=o>=</span><span class=s1>&#39;.*fa-([^2].*)(&#34;|\s|$).*&#39;</span>
-<span class=nv>fa</span><span class=o>=()</span>
-
-<span class=nv>var</span><span class=o>=</span><span class=sb>`</span>grep -rh --include <span class=se>\*</span>.html --include <span class=se>\*</span>.js <span class=s1>&#39;./themes/&#39;</span> -e <span class=s1>&#39;fa-&#39;</span><span class=sb>`</span>
-<span class=k>for</span> f in <span class=nv>$var</span>
-<span class=k>do</span> 
-    <span class=k>if</span> <span class=o>[[</span> <span class=nv>$f</span> <span class=o>=</span>~ <span class=nv>$regex</span> <span class=o>]]</span>
-    <span class=k>then</span>
-        <span class=nv>fa</span><span class=o>+=(</span> <span class=s2>&#34;</span><span class=si>${</span><span class=nv>BASH_REMATCH</span><span class=p>[1]</span><span class=si>}</span><span class=s2>&#34;</span> <span class=o>)</span>
-    <span class=k>fi</span>
-<span class=k>done</span>
-
-<span class=nv>var</span><span class=o>=</span><span class=sb>`</span>grep -h <span class=s1>&#39;./config.toml&#39;</span> -e <span class=s1>&#39;fa-&#39;</span><span class=sb>`</span>
-<span class=k>for</span> f in <span class=nv>$var</span>
-<span class=k>do</span> 
-    <span class=k>if</span> <span class=o>[[</span> <span class=nv>$f</span> <span class=o>=</span>~ <span class=nv>$regex</span> <span class=o>]]</span>
-    <span class=k>then</span>
-        <span class=nv>fa</span><span class=o>+=(</span> <span class=s2>&#34;</span><span class=si>${</span><span class=nv>BASH_REMATCH</span><span class=p>[1]</span><span class=si>}</span><span class=s2>&#34;</span> <span class=o>)</span>
-    <span class=k>fi</span>
-<span class=k>done</span>
-
-<span class=nv>uniq</span><span class=o>=(</span><span class=k>$(</span><span class=nb>printf</span> <span class=s2>&#34;%s\n&#34;</span> <span class=s2>&#34;</span><span class=si>${</span><span class=nv>fa</span><span class=p>[@]</span><span class=si>}</span><span class=s2>&#34;</span> <span class=p>|</span> sort -u<span class=k>)</span><span class=o>)</span><span class=p>;</span> 
-
-<span class=nv>dest</span><span class=o>=</span>fontawesome
-<span class=nv>ghurl</span><span class=o>=</span>https://raw.githubusercontent.com/FortAwesome/Font-Awesome/master/svgs
-<span class=nv>folders</span><span class=o>=(</span> brands solid regular <span class=o>)</span>
-
-mkdir -p <span class=s2>&#34;</span><span class=si>${</span><span class=nv>dest</span><span class=si>}</span><span class=s2>&#34;</span>
-<span class=k>for</span> icon in <span class=s2>&#34;</span><span class=si>${</span><span class=nv>uniq</span><span class=p>[@]</span><span class=si>}</span><span class=s2>&#34;</span>
-<span class=k>do</span> 
-    <span class=nv>icon</span><span class=o>=</span><span class=s2>&#34;</span><span class=si>${</span><span class=nv>icon</span><span class=p>%</span><span class=se>\&#34;</span><span class=si>}</span><span class=s2>.svg&#34;</span>
-    <span class=k>if</span> <span class=o>[</span> ! -f <span class=s2>&#34;</span><span class=si>${</span><span class=nv>dest</span><span class=si>}</span><span class=s2>/fa-</span><span class=si>${</span><span class=nv>icon</span><span class=si>}</span><span class=s2>&#34;</span> <span class=o>]</span><span class=p>;</span> 
-    <span class=k>then</span>
-        <span class=nb>echo</span> <span class=s2>&#34;</span><span class=si>${</span><span class=nv>icon</span><span class=si>}</span><span class=s2>&#34;</span>
-        <span class=k>for</span> folder in <span class=s2>&#34;</span><span class=si>${</span><span class=nv>folders</span><span class=p>[@]</span><span class=si>}</span><span class=s2>&#34;</span>
-        <span class=k>do</span> 
-            <span class=nv>url</span><span class=o>=</span><span class=s2>&#34;</span><span class=si>${</span><span class=nv>ghurl</span><span class=si>}</span><span class=s2>/</span><span class=si>${</span><span class=nv>folder</span><span class=si>}</span><span class=s2>/</span><span class=si>${</span><span class=nv>icon</span><span class=si>}</span><span class=s2>&#34;</span>
-            <span class=k>if</span> ! curl -s --head --request GET <span class=si>${</span><span class=nv>url</span><span class=si>}</span> <span class=p>|</span> grep <span class=s2>&#34;404&#34;</span> &gt; /dev/null
-            <span class=k>then</span>
-                curl -o <span class=s2>&#34;</span><span class=si>${</span><span class=nv>dest</span><span class=si>}</span><span class=s2>/fa-</span><span class=si>${</span><span class=nv>icon</span><span class=si>}</span><span class=s2>&#34;</span> <span class=si>${</span><span class=nv>url</span><span class=si>}</span>
-                <span class=nb>break</span>
-            <span class=k>fi</span>
-        <span class=k>done</span>
-    <span class=k>fi</span>
-<span class=k>done</span>
-</code></pre></div><p>The SVGs are in 3 different folders on the repo, <code>brands</code>, <code>solid</code> and <code>regular</code>. Currently I just check each folder in that order, but eventually I may add logic to support determining if the SVG would be in <code>solid</code> or <code>regular</code> depending on the <code>-o</code> tag.</p>
-<p>If you add a new <code>fa-</code> icon to your site, be sure to run the script before starting the Hugo server/build or else it will yell at you. I&rsquo;m hoping they add a way to add pre-build events so I can hook into that, but the adding of icons isn&rsquo;t a common occurrence for me so not a big issue.</p>
-</section>
-<section>
-<h2 id=create-the-partial>
-Create the Partial
-<a class=heading-link href=#create-the-partial>
-<i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i>
-</a>
-</h2>
-<p>Next is to create a partial in hugo to inject the SVG.</p>
-<p>I construct the icon path, read the file and inject <code>fill=\"currentColor\"</code> into the path so that I can change it&rsquo;s color.</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html>//fa.html
-<span class=p>&lt;</span><span class=nt>i</span> <span class=na>class</span><span class=o>=</span><span class=s>&#34;fa inline-svg&#34;</span> <span class=na>aria-hidden</span><span class=o>=</span><span class=s>&#34;true&#34;</span><span class=p>&gt;</span>
-    {{- $fname:=print &#34;fontawesome/&#34; . &#34;.svg&#34; -}}
-    {{- replace (readFile $fname) &#34;<span class=p>&lt;</span><span class=nt>path</span><span class=err>&#34;</span> <span class=err>&#34;&lt;</span><span class=na>path</span> <span class=na>fill</span><span class=o>=</span><span class=s>\&#34;currentColor\&#34;&#34;</span> <span class=err>|</span> <span class=na>safeHTML</span> <span class=na>-</span><span class=err>}}</span>
-<span class=err>&lt;/</span><span class=na>i</span><span class=p>&gt;</span>
-</code></pre></div><p>I&rsquo;m not 100% sold on using an <code>i</code> element for them, but will leave it that for now.</p>
-<p>With that set, I went around the system replacing the old code with the new partial.</p>
-<p>Old:</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html> <span class=p>&lt;</span><span class=nt>i</span> <span class=na>class</span><span class=o>=</span><span class=s>&#34;fa fa-link&#34;</span> <span class=na>aria-hidden</span><span class=o>=</span><span class=s>&#34;true&#34;</span><span class=p>&gt;&lt;/</span><span class=nt>i</span><span class=p>&gt;</span>
-</code></pre></div><p>New:</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html> {{ partial &#34;fa.html&#34; &#34;fa-link&#34; }}
-</code></pre></div><p>And that was pretty much it.</p>
-</section>
-<section>
-<h2 id=tweaks>
-Tweaks
-<a class=heading-link href=#tweaks>
-<i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i>
-</a>
-</h2>
-<p>There was a few tweaks that I needed to make due to sizing and positioning.</p>
-<p>First was to remove all the sizing tags (<code>fa-2x</code>, etc) and handled them myself. Best way I found was setting the <code>font-size</code>.</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-css data-lang=css><span class=p>.</span><span class=nc>inline-svg</span> <span class=p>{</span>
-    <span class=k>font-size</span><span class=p>:</span> <span class=n>XXX</span><span class=p>;</span>
-<span class=p>}</span>
-</code></pre></div><p>I also added this to my css to help with alignment to text</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-css data-lang=css><span class=p>.</span><span class=nc>inline-svg</span> <span class=p>{</span>
-  <span class=k>display</span><span class=p>:</span> <span class=kc>inline-flex</span><span class=p>;</span>
-  <span class=k>align-self</span><span class=p>:</span> <span class=kc>center</span><span class=p>;</span>
-<span class=p>}</span>
-<span class=p>.</span><span class=nc>inline-svg</span> <span class=nt>svg</span> <span class=p>{</span>
-  <span class=k>font-size</span><span class=p>:</span> <span class=kc>inherit</span><span class=p>;</span>
-  <span class=k>height</span><span class=p>:</span> <span class=mi>1</span><span class=kt>em</span><span class=p>;</span>
-  <span class=k>width</span><span class=p>:</span> <span class=mi>1</span><span class=kt>em</span><span class=p>;</span>
-  <span class=k>top</span><span class=p>:</span> <span class=mf>.125</span><span class=kt>em</span><span class=p>;</span>
-  <span class=k>position</span><span class=p>:</span> <span class=kc>relative</span><span class=p>;</span>
-<span class=p>}</span> 
-</code></pre></div><p>But after that it&rsquo;s been smooth sailing. Was really surprised at how easy it was and it&rsquo;s another 3rd-party dependency gone without a loss in functionality!</p>
-</section>
-</div>
-<footer>
-<section class=see-also>
-<h3 id=see-also-in-hugo>
-See also in hugo
-<a class=heading-link href=#see-also-in-hugo>
-<i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i>
-</a>
-</h3>
-<nav>
-<ul>
-<li>
-<a href=/posts/2021/04/font/>Removing Google Fonts & Other 3rd Parties</a>
-</li>
-<li>
-<a href=/posts/2021/04/webp/>Lazy Loading Images & WebP</a>
-</li>
-<li>
-<a href=/posts/2021/04/material/>Materialize</a>
-</li>
-<li>
-<a href=/posts/2021/04/cssclean/>Minimizing CSS in Hugo</a>
-</li>
-<li>
-<a href=/posts/2021/04/env-setup/>Environment & Hosting Setup</a>
-</li>
-</ul>
-</nav>
-<h3 id=see-also-in-optimizations>
-See also in optimizations
-<a class=heading-link href=#see-also-in-optimizations>
-<i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i>
-</a>
-</h3>
-<nav>
-<ul>
-<li>
-<a href=/posts/2021/04/font/>Removing Google Fonts & Other 3rd Parties</a>
-</li>
-<li>
-<a href=/posts/2021/04/webp/>Lazy Loading Images & WebP</a>
-</li>
-<li>
-<a href=/posts/2021/04/cssclean/>Minimizing CSS in Hugo</a>
-</li>
-</ul>
-</nav>
-</section>
-<div id=utterance-container src=https://utteranc.es/client.js repo=TChilderhose/tchilderhose.github.io issue-term=pathname label=comment crossorigin=anonymous>
-</div>
-</footer>
-</article>
-</section>
-</div>
-<footer class=footer>
-<section class=container>
-©
+<a class=tag-link href=/tags/svg/>svg</a></span></div></header><div><p>Next target of optimizing on my Hugo site is to minify or remove FontAwesome. After a bit of investigating I decided to just remove it all and handle the SVGs that I will be using myself.</p><p>Which would cross another thing off my original list</p><ul><li><del>Removing unused CSS</del></li><li><del><strong>Minifying/Removing FontAwesome</strong></del></li><li>Minimizing requests to 3rd parties (fonts, metrics, etc)</li><li>Remove Google Fonts while still looking appealing</li><li>Minimizing use of JavaScript</li><li>Converting Images to WebP or some other optimized formats</li></ul><section><h2 id=remove-fontawesome>Remove FontAwesome
+<a class=heading-link href=#remove-fontawesome><i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i></a></h2><p>I removed any mention of the FontAwesome font and/or stylesheet. Normally it&rsquo;s something like</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>link</span> <span class=na>rel</span><span class=o>=</span><span class=s>&#34;stylesheet&#34;</span> <span class=na>href</span><span class=o>=</span><span class=s>&#34;https://cdnjs.cloudflare.com/ajax/libs/font-awesome/XXX/css/font-awesome.min.css&#34;</span><span class=p>&gt;</span>
+</span></span></code></pre></div><p>The theme I was using also had a local version called <a href=https://github.com/ForkAwesome/Fork-Awesome>ForkAwesome</a> installed. Just needed to remove the files from the static folder and remove the links to it.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>link</span> <span class=na>rel</span><span class=o>=</span><span class=s>&#34;preload&#34;</span> <span class=na>href</span><span class=o>=</span><span class=s>&#34;/fonts/forkawesome-webfont.woff2?v=1.1.7&#34;</span> <span class=na>as</span><span class=o>=</span><span class=s>&#34;font&#34;</span> <span class=na>type</span><span class=o>=</span><span class=s>&#34;font/woff2&#34;</span> <span class=na>crossorigin</span><span class=p>&gt;</span>
+</span></span></code></pre></div><p>Don&rsquo;t remove any of the class tags just yet (<code>fa</code>, <code>fa-XXXX</code>, etc).</p></section><section><h2 id=fetch-the-needed-svgs>Fetch the Needed SVGs
+<a class=heading-link href=#fetch-the-needed-svgs><i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i></a></h2><p>Next I wrote a script that will</p><ul><li>Go through my html, js and config.toml files looking for <code>fa-</code>.</li><li>Check which SVGs are missing</li><li>Download the SVG from the <a href=https://github.com/FortAwesome/Font-Awesome>FontAwesome GitHub Repo</a> into the <code>./fontawesome</code> folder</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=cp>#!/usr/bin/env bash
+</span></span></span><span class=line><span class=cl><span class=cp></span><span class=nv>regex</span><span class=o>=</span><span class=s1>&#39;.*fa-([^2].*)(&#34;|\s|$).*&#39;</span>
+</span></span><span class=line><span class=cl><span class=nv>fa</span><span class=o>=()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>var</span><span class=o>=</span><span class=sb>`</span>grep -rh --include <span class=se>\*</span>.html --include <span class=se>\*</span>.js <span class=s1>&#39;./themes/&#39;</span> -e <span class=s1>&#39;fa-&#39;</span><span class=sb>`</span>
+</span></span><span class=line><span class=cl><span class=k>for</span> f in <span class=nv>$var</span>
+</span></span><span class=line><span class=cl><span class=k>do</span> 
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=o>[[</span> <span class=nv>$f</span> <span class=o>=</span>~ <span class=nv>$regex</span> <span class=o>]]</span>
+</span></span><span class=line><span class=cl>    <span class=k>then</span>
+</span></span><span class=line><span class=cl>        <span class=nv>fa</span><span class=o>+=(</span> <span class=s2>&#34;</span><span class=si>${</span><span class=nv>BASH_REMATCH</span><span class=p>[1]</span><span class=si>}</span><span class=s2>&#34;</span> <span class=o>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>fi</span>
+</span></span><span class=line><span class=cl><span class=k>done</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>var</span><span class=o>=</span><span class=sb>`</span>grep -h <span class=s1>&#39;./config.toml&#39;</span> -e <span class=s1>&#39;fa-&#39;</span><span class=sb>`</span>
+</span></span><span class=line><span class=cl><span class=k>for</span> f in <span class=nv>$var</span>
+</span></span><span class=line><span class=cl><span class=k>do</span> 
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=o>[[</span> <span class=nv>$f</span> <span class=o>=</span>~ <span class=nv>$regex</span> <span class=o>]]</span>
+</span></span><span class=line><span class=cl>    <span class=k>then</span>
+</span></span><span class=line><span class=cl>        <span class=nv>fa</span><span class=o>+=(</span> <span class=s2>&#34;</span><span class=si>${</span><span class=nv>BASH_REMATCH</span><span class=p>[1]</span><span class=si>}</span><span class=s2>&#34;</span> <span class=o>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>fi</span>
+</span></span><span class=line><span class=cl><span class=k>done</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>uniq</span><span class=o>=(</span><span class=k>$(</span><span class=nb>printf</span> <span class=s2>&#34;%s\n&#34;</span> <span class=s2>&#34;</span><span class=si>${</span><span class=nv>fa</span><span class=p>[@]</span><span class=si>}</span><span class=s2>&#34;</span> <span class=p>|</span> sort -u<span class=k>)</span><span class=o>)</span><span class=p>;</span> 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>dest</span><span class=o>=</span>fontawesome
+</span></span><span class=line><span class=cl><span class=nv>ghurl</span><span class=o>=</span>https://raw.githubusercontent.com/FortAwesome/Font-Awesome/master/svgs
+</span></span><span class=line><span class=cl><span class=nv>folders</span><span class=o>=(</span> brands solid regular <span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>mkdir -p <span class=s2>&#34;</span><span class=si>${</span><span class=nv>dest</span><span class=si>}</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl><span class=k>for</span> icon in <span class=s2>&#34;</span><span class=si>${</span><span class=nv>uniq</span><span class=p>[@]</span><span class=si>}</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl><span class=k>do</span> 
+</span></span><span class=line><span class=cl>    <span class=nv>icon</span><span class=o>=</span><span class=s2>&#34;</span><span class=si>${</span><span class=nv>icon</span><span class=p>%</span><span class=se>\&#34;</span><span class=si>}</span><span class=s2>.svg&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=o>[</span> ! -f <span class=s2>&#34;</span><span class=si>${</span><span class=nv>dest</span><span class=si>}</span><span class=s2>/fa-</span><span class=si>${</span><span class=nv>icon</span><span class=si>}</span><span class=s2>&#34;</span> <span class=o>]</span><span class=p>;</span> 
+</span></span><span class=line><span class=cl>    <span class=k>then</span>
+</span></span><span class=line><span class=cl>        <span class=nb>echo</span> <span class=s2>&#34;</span><span class=si>${</span><span class=nv>icon</span><span class=si>}</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> folder in <span class=s2>&#34;</span><span class=si>${</span><span class=nv>folders</span><span class=p>[@]</span><span class=si>}</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=k>do</span> 
+</span></span><span class=line><span class=cl>            <span class=nv>url</span><span class=o>=</span><span class=s2>&#34;</span><span class=si>${</span><span class=nv>ghurl</span><span class=si>}</span><span class=s2>/</span><span class=si>${</span><span class=nv>folder</span><span class=si>}</span><span class=s2>/</span><span class=si>${</span><span class=nv>icon</span><span class=si>}</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> ! curl -s --head --request GET <span class=si>${</span><span class=nv>url</span><span class=si>}</span> <span class=p>|</span> grep <span class=s2>&#34;404&#34;</span> &gt; /dev/null
+</span></span><span class=line><span class=cl>            <span class=k>then</span>
+</span></span><span class=line><span class=cl>                curl -o <span class=s2>&#34;</span><span class=si>${</span><span class=nv>dest</span><span class=si>}</span><span class=s2>/fa-</span><span class=si>${</span><span class=nv>icon</span><span class=si>}</span><span class=s2>&#34;</span> <span class=si>${</span><span class=nv>url</span><span class=si>}</span>
+</span></span><span class=line><span class=cl>                <span class=nb>break</span>
+</span></span><span class=line><span class=cl>            <span class=k>fi</span>
+</span></span><span class=line><span class=cl>        <span class=k>done</span>
+</span></span><span class=line><span class=cl>    <span class=k>fi</span>
+</span></span><span class=line><span class=cl><span class=k>done</span>
+</span></span></code></pre></div><p>The SVGs are in 3 different folders on the repo, <code>brands</code>, <code>solid</code> and <code>regular</code>. Currently I just check each folder in that order, but eventually I may add logic to support determining if the SVG would be in <code>solid</code> or <code>regular</code> depending on the <code>-o</code> tag.</p><p>If you add a new <code>fa-</code> icon to your site, be sure to run the script before starting the Hugo server/build or else it will yell at you. I&rsquo;m hoping they add a way to add pre-build events so I can hook into that, but the adding of icons isn&rsquo;t a common occurrence for me so not a big issue.</p></section><section><h2 id=create-the-partial>Create the Partial
+<a class=heading-link href=#create-the-partial><i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i></a></h2><p>Next is to create a partial in hugo to inject the SVG.</p><p>I construct the icon path, read the file and inject <code>fill=\"currentColor\"</code> into the path so that I can change it&rsquo;s color.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl>//fa.html
+</span></span><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>i</span> <span class=na>class</span><span class=o>=</span><span class=s>&#34;fa inline-svg&#34;</span> <span class=na>aria-hidden</span><span class=o>=</span><span class=s>&#34;true&#34;</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>    {{- $fname:=print &#34;fontawesome/&#34; . &#34;.svg&#34; -}}
+</span></span><span class=line><span class=cl>    {{- replace (readFile $fname) &#34;<span class=p>&lt;</span><span class=nt>path</span><span class=err>&#34;</span> <span class=err>&#34;&lt;</span><span class=na>path</span> <span class=na>fill</span><span class=o>=</span><span class=s>\&#34;currentColor\&#34;&#34;</span> <span class=err>|</span> <span class=na>safeHTML</span> <span class=na>-</span><span class=err>}}</span>
+</span></span><span class=line><span class=cl><span class=err>&lt;/</span><span class=na>i</span><span class=p>&gt;</span>
+</span></span></code></pre></div><p>I&rsquo;m not 100% sold on using an <code>i</code> element for them, but will leave it that for now.</p><p>With that set, I went around the system replacing the old code with the new partial.</p><p>Old:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl> <span class=p>&lt;</span><span class=nt>i</span> <span class=na>class</span><span class=o>=</span><span class=s>&#34;fa fa-link&#34;</span> <span class=na>aria-hidden</span><span class=o>=</span><span class=s>&#34;true&#34;</span><span class=p>&gt;&lt;/</span><span class=nt>i</span><span class=p>&gt;</span>
+</span></span></code></pre></div><p>New:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl> {{ partial &#34;fa.html&#34; &#34;fa-link&#34; }}
+</span></span></code></pre></div><p>And that was pretty much it.</p></section><section><h2 id=tweaks>Tweaks
+<a class=heading-link href=#tweaks><i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i></a></h2><p>There was a few tweaks that I needed to make due to sizing and positioning.</p><p>First was to remove all the sizing tags (<code>fa-2x</code>, etc) and handled them myself. Best way I found was setting the <code>font-size</code>.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-css data-lang=css><span class=line><span class=cl><span class=p>.</span><span class=nc>inline-svg</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>font-size</span><span class=p>:</span> <span class=n>XXX</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>I also added this to my css to help with alignment to text</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-css data-lang=css><span class=line><span class=cl><span class=p>.</span><span class=nc>inline-svg</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>display</span><span class=p>:</span> <span class=kc>inline-flex</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=k>align-self</span><span class=p>:</span> <span class=kc>center</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>.</span><span class=nc>inline-svg</span> <span class=nt>svg</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>font-size</span><span class=p>:</span> <span class=kc>inherit</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=k>height</span><span class=p>:</span> <span class=mi>1</span><span class=kt>em</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=k>width</span><span class=p>:</span> <span class=mi>1</span><span class=kt>em</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=k>top</span><span class=p>:</span> <span class=mf>.125</span><span class=kt>em</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=k>position</span><span class=p>:</span> <span class=kc>relative</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span> 
+</span></span></code></pre></div><p>But after that it&rsquo;s been smooth sailing. Was really surprised at how easy it was and it&rsquo;s another 3rd-party dependency gone without a loss in functionality!</p></section></div><footer><section class=see-also><h3 id=see-also-in-hugo>See also in hugo
+<a class=heading-link href=#see-also-in-hugo><i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i></a></h3><nav><ul><li><a href=/posts/2021/04/font/>Removing Google Fonts & Other 3rd Parties</a></li><li><a href=/posts/2021/04/webp/>Lazy Loading Images & WebP</a></li><li><a href=/posts/2021/04/material/>Materialize</a></li><li><a href=/posts/2021/04/cssclean/>Minimizing CSS in Hugo</a></li><li><a href=/posts/2021/04/env-setup/>Environment & Hosting Setup</a></li></ul></nav><h3 id=see-also-in-optimizations>See also in optimizations
+<a class=heading-link href=#see-also-in-optimizations><i class="fa inline-svg" aria-hidden=true><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentcolor" d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></i></a></h3><nav><ul><li><a href=/posts/2021/04/font/>Removing Google Fonts & Other 3rd Parties</a></li><li><a href=/posts/2021/04/webp/>Lazy Loading Images & WebP</a></li><li><a href=/posts/2021/04/cssclean/>Minimizing CSS in Hugo</a></li></ul></nav></section><div id=utterance-container src=https://utteranc.es/client.js repo=TChilderhose/tchilderhose.github.io issue-term=pathname label=comment crossorigin=anonymous></div></footer></article></section></div><footer class=footer><section class=container>©
 2021 -
 2022
 Tyler Childerhose
 ·
-Powered by <a href=https://gohugo.io/>Hugo</a>.
-</section>
-</footer>
-</main>
-<script defer src=/js/site.min.abadf6950b7dff946d074965e3f503e6af98c664f13fb6b2ab43277b841c70e6.js integrity="sha256-q632lQt9/5RtB0ll4/UD5q+YxmTxP7ayq0Mne4QccOY=" crossorigin=anonymous></script>
-</body>
-</html>
+Powered by <a href=https://gohugo.io/>Hugo</a>.</section></footer></main><script defer src=/js/site.min.4e9f0140fabb2edb7a4139c2b14598a7ae325736775c3d40c1b1d910a5a6d272.js integrity="sha256-Tp8BQPq7Ltt6QTnCsUWYp64yVzZ3XD1AwbHZEKWm0nI=" crossorigin=anonymous></script></body></html>
