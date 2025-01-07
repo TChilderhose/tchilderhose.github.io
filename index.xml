@@ -8,72 +8,72 @@
 &lt;table>
  &lt;thead>
  &lt;tr>
- &lt;th style="text-align: left">Game Name&lt;/th>
- &lt;th style="text-align: left">Condition&lt;/th>
- &lt;th style="text-align: left">Price&lt;/th>
- &lt;th style="text-align: left">Notes&lt;/th>
+ &lt;th>Game Name&lt;/th>
+ &lt;th>Condition&lt;/th>
+ &lt;th>Price&lt;/th>
+ &lt;th>Notes&lt;/th>
  &lt;/tr>
  &lt;/thead>
  &lt;tbody>
  &lt;tr>
- &lt;td style="text-align: left">&lt;a href="https://boardgamegeek.com/boardgame/294514/5-minute-mystery">5-minute Mystery&lt;/a>&lt;/td>
- &lt;td style="text-align: left">Sealed&lt;/td>
- &lt;td style="text-align: left">$20&lt;/td>
- &lt;td style="text-align: left">&lt;/td>
+ &lt;td>&lt;a href="https://boardgamegeek.com/boardgame/294514/5-minute-mystery">5-minute Mystery&lt;/a>&lt;/td>
+ &lt;td>Sealed&lt;/td>
+ &lt;td>$20&lt;/td>
+ &lt;td>&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;a href="https://boardgamegeek.com/boardgame/173346/7-wonders-duel">7 Wonders Duel&lt;/a>&lt;/td>
- &lt;td style="text-align: left">Sealed&lt;/td>
- &lt;td style="text-align: left">$20&lt;/td>
- &lt;td style="text-align: left">&lt;a href="https://thebrokentoken.com/dueling-gods-organizer">Insert&lt;/a>&lt;/td>
+ &lt;td>&lt;a href="https://boardgamegeek.com/boardgame/173346/7-wonders-duel">7 Wonders Duel&lt;/a>&lt;/td>
+ &lt;td>Sealed&lt;/td>
+ &lt;td>$20&lt;/td>
+ &lt;td>&lt;a href="https://thebrokentoken.com/dueling-gods-organizer">Insert&lt;/a>&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;a href="https://boardgamegeek.com/boardgame/290028/codenames-simpsons">Codenames: The Simpsons&lt;/a>&lt;/td>
- &lt;td style="text-align: left">Sealed&lt;/td>
- &lt;td style="text-align: left">$15&lt;/td>
- &lt;td style="text-align: left">&lt;/td>
+ &lt;td>&lt;a href="https://boardgamegeek.com/boardgame/290028/codenames-simpsons">Codenames: The Simpsons&lt;/a>&lt;/td>
+ &lt;td>Sealed&lt;/td>
+ &lt;td>$15&lt;/td>
+ &lt;td>&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;a href="https://boardgamegeek.com/boardgame/223321/detective-modern-crime-board-game">Detective: A Modern Crime Board Game&lt;/a>&lt;/td>
- &lt;td style="text-align: left">Opened (Never Player)&lt;/td>
- &lt;td style="text-align: left">$20&lt;/td>
- &lt;td style="text-align: left">&lt;/td>
+ &lt;td>&lt;a href="https://boardgamegeek.com/boardgame/223321/detective-modern-crime-board-game">Detective: A Modern Crime Board Game&lt;/a>&lt;/td>
+ &lt;td>Opened (Never Player)&lt;/td>
+ &lt;td>$20&lt;/td>
+ &lt;td>&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;a href="https://boardgamegeek.com/boardgame/214032/founders-gloomhaven">Founders of Gloomhaven&lt;/a>&lt;/td>
- &lt;td style="text-align: left">Opened (Never Player)&lt;/td>
- &lt;td style="text-align: left">$20&lt;/td>
- &lt;td style="text-align: left">&lt;/td>
+ &lt;td>&lt;a href="https://boardgamegeek.com/boardgame/214032/founders-gloomhaven">Founders of Gloomhaven&lt;/a>&lt;/td>
+ &lt;td>Opened (Never Player)&lt;/td>
+ &lt;td>$20&lt;/td>
+ &lt;td>&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;a href="https://boardgamegeek.com/boardgame/197443/fugitive">Fugitive&lt;/a>&lt;/td>
- &lt;td style="text-align: left">Opened (Played Once)&lt;/td>
- &lt;td style="text-align: left">$10&lt;/td>
- &lt;td style="text-align: left">&lt;/td>
+ &lt;td>&lt;a href="https://boardgamegeek.com/boardgame/197443/fugitive">Fugitive&lt;/a>&lt;/td>
+ &lt;td>Opened (Played Once)&lt;/td>
+ &lt;td>$10&lt;/td>
+ &lt;td>&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;a href="https://boardgamegeek.com/boardgame/148951/tiny-epic-kingdoms">Tiny Epic Kingdoms&lt;/a>&lt;/td>
- &lt;td style="text-align: left">Opened (Played Once)&lt;/td>
- &lt;td style="text-align: left">$10&lt;/td>
- &lt;td style="text-align: left">&lt;/td>
+ &lt;td>&lt;a href="https://boardgamegeek.com/boardgame/148951/tiny-epic-kingdoms">Tiny Epic Kingdoms&lt;/a>&lt;/td>
+ &lt;td>Opened (Played Once)&lt;/td>
+ &lt;td>$10&lt;/td>
+ &lt;td>&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;a href="https://boardgamegeek.com/boardgame/257283/tiny-epic-mechs">Tiny Epic Mechs&lt;/a>&lt;/td>
- &lt;td style="text-align: left">Opened (Never Player)&lt;/td>
- &lt;td style="text-align: left">$10&lt;/td>
- &lt;td style="text-align: left">&lt;/td>
+ &lt;td>&lt;a href="https://boardgamegeek.com/boardgame/257283/tiny-epic-mechs">Tiny Epic Mechs&lt;/a>&lt;/td>
+ &lt;td>Opened (Never Player)&lt;/td>
+ &lt;td>$10&lt;/td>
+ &lt;td>&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;a href="https://boardgamegeek.com/boardgame/257283/tiny-epic-mechs">Tiny Epic Mechs&lt;/a>&lt;/td>
- &lt;td style="text-align: left">Sealed&lt;/td>
- &lt;td style="text-align: left">$15&lt;/td>
- &lt;td style="text-align: left">&lt;/td>
+ &lt;td>&lt;a href="https://boardgamegeek.com/boardgame/257283/tiny-epic-mechs">Tiny Epic Mechs&lt;/a>&lt;/td>
+ &lt;td>Sealed&lt;/td>
+ &lt;td>$15&lt;/td>
+ &lt;td>&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;a href="https://boardgamegeek.com/boardgame/257283/tiny-epic-mechs">Tortuga 1667&lt;/a>&lt;/td>
- &lt;td style="text-align: left">Sealed&lt;/td>
- &lt;td style="text-align: left">$15&lt;/td>
- &lt;td style="text-align: left">&lt;/td>
+ &lt;td>&lt;a href="https://boardgamegeek.com/boardgame/257283/tiny-epic-mechs">Tortuga 1667&lt;/a>&lt;/td>
+ &lt;td>Sealed&lt;/td>
+ &lt;td>$15&lt;/td>
+ &lt;td>&lt;/td>
  &lt;/tr>
  &lt;/tbody>
 &lt;/table>
